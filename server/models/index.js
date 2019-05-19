@@ -1,9 +1,9 @@
-import session from '../../routes/session';
-import user from '../../routes/user';
-import message from '../../routes/message';
+const personsModel = require('./persons')
+const addressModel = require('./address')
+const ordersModel = require('./orders')
 
-export default {
-  session,
-  user,
-  message,
+module.exports = {
+  personsModel,
+  addressModel,
+  ordersModel
 };

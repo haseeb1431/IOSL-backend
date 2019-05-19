@@ -9,7 +9,7 @@ require('dotenv').config()
 const app = express();
 
 
-const user = require('./server/models/users');
+
 
 
 
@@ -25,12 +25,28 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 //#region Routing
 
-app.get('/users', user.getUsers)
-app.get('/users/:id', user.getUserById)
-app.post('/users', user.createUser)
-app.put('/users/:id', user.updateUser)
-app.delete('/users/:id', user.deleteUser)
+const models = require('./server/models/index');
+const person = models.personsModel
+const addressModel = models.addressModel
+const ordersModel = models.ordersModel
 
+app.get('/persons', person.getPersons)
+app.get('/persons/:id', person.getPersonById)
+app.post('/persons', person.createPerson)
+app.put('/persons/:id', person.updatePerson)
+app.delete('/persons/:id', person.deletePerson)
+
+app.get('/address', addressModel.getAddress)
+app.get('/address/:id', addressModel.getAddressById)
+app.post('/address', addressModel.createAddress)
+app.put('/address/:id', addressModel.updateAddress)
+app.delete('/address/:id', addressModel.deleteAddress)
+
+app.get('/orders', ordersModel.getOrders)
+app.get('/orders/:id', ordersModel.getOrderById)
+app.post('/orders', ordersModel.createOrder)
+app.put('/orders/:id', ordersModel.updateOrder)
+app.delete('/orders/:id', ordersModel.deleteOrder)
 //#endregion
 
 
