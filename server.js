@@ -42,11 +42,19 @@ app.post('/address', addressModel.createAddress)
 app.put('/address/:id', addressModel.updateAddress)
 app.delete('/address/:id', addressModel.deleteAddress)
 
-app.get('/orders', ordersModel.getOrders)
-app.get('/orders/:id', ordersModel.getOrderById)
-app.post('/orders', ordersModel.createOrder)
-app.put('/orders/:id', ordersModel.updateOrder)
-app.delete('/orders/:id', ordersModel.deleteOrder)
+app.get('/packages', ordersModel.getOrders)
+app.get('/packages/:id', ordersModel.getOrderById)
+app.post('/packages', ordersModel.createOrder) //update to make userid required
+app.put('/packages/:id', ordersModel.updateOrder)
+app.delete('/packages/:id', ordersModel.deleteOrder)
+app.get('/userpackages/:userid', ordersModel.getOrdersByUser)
+
+//companypackages/compnayid
+//postmanPackages/postman
+
+//postmanHandOver
+
+
 //#endregion
 
 

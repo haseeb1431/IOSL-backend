@@ -61,3 +61,6 @@ WITH (
 
 ALTER TABLE public."Orders"
     OWNER to postgres;    
+
+ALTER TABLE public."Orders"
+    ADD COLUMN "PersonID" integer;    

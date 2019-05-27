@@ -73,4 +73,5 @@ GET http://localhost:8000/orders/1
 DELETE http://localhost:8000/orders/1
 ```
 
-
+## GET user packages
+GET http://localhost:8000/userpackages/1
