@@ -50,27 +50,29 @@ DELETE http://localhost:8000/address/1
 
 
 
-## Orders Http API calls
+## Packages/Orders Http API calls
 ```
-POST http://localhost:8000/orders
+POST http://localhost:8000/packages
 {
 	"pickaddressid":1,
 	"dropaddressid":2,
 	"pickdate": "2018-05-05",
-	"arrivaldate": null
+	"arrivaldate": null,
+	"personid":1
 }
 
-PUT http://localhost:8000/orders/1
+PUT http://localhost:8000/packages/1
 {
 	"pickaddressid":1,
 	"dropaddressid":2,
 	"pickdate": "2018-05-07",
-	"arrivaldate": null
+	"arrivaldate": null,
+	"personid":1
 }
 
-GET http://localhost:8000/orders
-GET http://localhost:8000/orders/1
-DELETE http://localhost:8000/orders/1
+GET http://localhost:8000/packages
+GET http://localhost:8000/packages/1
+DELETE http://localhost:8000/packages/1
 ```
 
 ## GET user packages
