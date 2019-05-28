@@ -23,9 +23,9 @@ const getPersonById = (request, response) => {
 
 
 const createPerson = (request, response) => {
-    const { fullname, email, password, dateofbirth } = request.body
-    pool.query('INSERT INTO "Person" ("FullName", "Email", "Password", "DateOfBirth") VALUES ($1, $2, $3, $4)',
-        [fullname, email, password, dateofbirth], (error, result) => {
+    const { fullname, email, password, persontype } = request.body
+    pool.query('INSERT INTO "Person" ("FullName", "Email", "Password", "PersonType") VALUES ($1, $2, $3, $4)',
+        [fullname, email, password, persontype], (error, result) => {
             if (error) {
                 throw error
             }
@@ -36,11 +36,11 @@ const createPerson = (request, response) => {
 
 const updatePerson = (request, response) => {
     const id = parseInt(request.params.id)
-    const { personid, fullname, email, password, dateofbirth } = request.body
+    const { personid, fullname, email, password, persontype } = request.body
 
     pool.query(
-        'UPDATE "Person" SET "FullName" = $1, "Email" = $2, "DateOfBirth"=$3 WHERE "ID" = $4 ',
-        [fullname, email, dateofbirth, personid ],
+        'UPDATE "Person" SET "FullName" = $1, "Email" = $2, "PersonType"=$3 WHERE "ID" = $4 ',
+        [fullname, email, persontype, personid ],
         (error, results) => {
             if (error) {
                 throw error
