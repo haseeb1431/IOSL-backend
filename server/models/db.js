@@ -1,12 +1,13 @@
-const Pool = require('pg').Pool
+const { Pool } = require('pg');
+
 const pool = new Pool({
-    user: 'ioslpg@ioslpg',
-    host: 'ioslpg.postgres.database.azure.com',
-    database: 'ioslbackendDB',
-    password: '',
-    port: 5432,
-    ssl: true
-})
+  user: 'ioslpg@ioslpg',
+  host: 'ioslpg.postgres.database.azure.com',
+  database: 'ioslbackendDB',
+  password: 'Wcdima2@123456',
+  port: 5432,
+  ssl: true,
+});
 
 
 // const pool = new Pool({
@@ -18,5 +19,5 @@ const pool = new Pool({
 // })
 
 module.exports = {
-    pool
-}
+  pool,
+};

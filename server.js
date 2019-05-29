@@ -49,11 +49,17 @@ app.put('/packages/:id', ordersModel.updateOrder)
 app.delete('/packages/:id', ordersModel.deleteOrder)
 app.get('/userpackages/:userid', ordersModel.getOrdersByUser)
 
+//TODO - Fetch real data
+app.get('/userpackagetimeline/:pkgid', ordersModel.getPackageTimeline)
+
+
+
+//pkgid, Receiverid, senderid, recvrcompanyid, sendcompanyid, location, date time, status
+app.post('/packageHandover',ordersModel.createOrderwithAddress)
+app.post('/completepackage',ordersModel.createOrderwithAddress)
 //companypackages/compnayid
 //postmanPackages/postman
-
 //postmanHandOver
-
 
 //#endregion
 
