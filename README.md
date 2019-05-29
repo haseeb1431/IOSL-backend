@@ -70,7 +70,7 @@ npm run server # run the app
 ```
 
 ## Author
-Anubhav Guha, Pradyumna Kashyap, Haseeb Asif
+IOSL Team
 
 
 
