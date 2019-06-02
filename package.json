@@ -18,8 +18,7 @@
   "bugs": {
     "url": "https://github.com/haseeb1431/ioslbackend/issues"
   },
-  "homepage": "https://github.com/haseeb1431/ioslbackend#readme",
-  "helplink": "https://blog.bitsrc.io/build-a-login-auth-app-with-mern-stack-part-1-c405048e3669",
+  "homepage": "https://github.com/haseeb1431/ioslbackend#readme",  
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
