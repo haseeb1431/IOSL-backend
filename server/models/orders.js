@@ -10,6 +10,14 @@ const getOrders = (request, response) => {
   });
 };
 
+const getOrdersDetails = (request, response) => {
+  pool.query('SELECT * FROM "Orders" inner join "Address" on "Orders"."DropAddressID"="Address"."AddressID" ORDER BY "OrderID" ASC', (error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).json(results.rows);
+  });
+};
 const getOrderById = (request, response) => {
   const id = parseInt(request.params.id, 10);
 
@@ -136,4 +144,5 @@ module.exports = {
   getOrdersByUser,
   createOrderwithAddress,
   getPackageTimeline,
+  getOrdersDetails
 };

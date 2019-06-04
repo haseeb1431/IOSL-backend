@@ -43,6 +43,8 @@ app.put('/address/:id', addressModel.updateAddress)
 app.delete('/address/:id', addressModel.deleteAddress)
 
 app.get('/packages', ordersModel.getOrders)
+app.get('/packagesdetails', ordersModel.getOrdersDetails)
+
 app.get('/packages/:id', ordersModel.getOrderById)
 app.post('/packages', ordersModel.createOrder) //update to make userid required
 app.put('/packages/:id', ordersModel.updateOrder)
