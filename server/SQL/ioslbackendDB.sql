@@ -68,6 +68,9 @@ ALTER TABLE public."Orders"
 ALTER TABLE public."Orders"
     ADD COLUMN "ReceiverPersonID" integer; 
 
+ALTER TABLE public."Orders"
+    ADD COLUMN "Status" character varying(50);    
+
 CREATE TABLE public."Incident"
 (
     "IncidentId" serial NOT NULL,

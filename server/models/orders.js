@@ -57,11 +57,11 @@ const getPackageTimeline = (request, response) => {
 
 const createOrder = (request, response) => {
   const {
-    pickaddressid, dropaddressid, pickdate, arrivaldate, personid, receieverid
+    pickaddressid, dropaddressid, pickdate, arrivaldate, personid, receieverid, status
   } = request.body;
 
-  pool.query('INSERT INTO "Orders" ("PickAddressID", "DropAddressID", "PickDate", "ArrivalDate", "PersonID","ReceiverPersonID") VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-    [pickaddressid, dropaddressid, pickdate, arrivaldate, personid, receieverid], (error, result) => {
+  pool.query('INSERT INTO "Orders" ("PickAddressID", "DropAddressID", "PickDate", "ArrivalDate", "PersonID","ReceiverPersonID", "Status") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+    [pickaddressid, dropaddressid, pickdate, arrivaldate, personid, receieverid, status], (error, result) => {
       if (error) {
         throw error;
       }
@@ -77,13 +77,13 @@ const createOrderwithAddress = (request, response) => {
 const updateOrder = (request, response) => {
   const id = parseInt(request.params.id, 10);
   const {
-    pickaddressid, dropaddressid, pickdate, arrivaldate, personid, receieverid
+    pickaddressid, dropaddressid, pickdate, arrivaldate, personid, receieverid, status
   } = request.body;
 
   pool.query(
     'UPDATE "Orders" SET "PickAddressID" = $1, "DropAddressID" = $2, "PickDate" = $3, "ArrivalDate" = $4, "PersonID"=$5'+
-    ' ReceiverPersonID=$6 WHERE "OrderID" = $7',
-    [pickaddressid, dropaddressid, pickdate, arrivaldate, personid, receieverid, id],
+    ' ReceiverPersonID=$6, "Status"=$7 WHERE "OrderID" = $8',
+    [pickaddressid, dropaddressid, pickdate, arrivaldate, personid, receieverid, status, id],
     (error, results) => {
       if (error) {
         throw error;
