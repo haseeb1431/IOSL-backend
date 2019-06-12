@@ -26,12 +26,12 @@ const createAddress = (request, response) => {
     street, city, country, postcode,
   } = request.body;
 
-  pool.query('INSERT INTO "Address" ("StreetAddress", "City", "Country", "PostCode") VALUES ($1, $2, $3, $4) RETURNING "AddressID"',
+  pool.query('INSERT INTO "Address" ("StreetAddress", "City", "Country", "PostCode") VALUES ($1, $2, $3, $4) RETURNING *',
     [street, city, country, postcode], (error, result) => {
       if (error) {
         throw error;
       }
-      response.status(201).send(`Address added with ID: ${result.rows[0].AddressID}`);
+      response.status(201).json(result.rows[0]);
     });
 };
 
