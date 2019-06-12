@@ -64,10 +64,10 @@ app.post('/completepackage',ordersModel.createOrderwithAddress)
 //postmanHandOver
 
 app.get('/incidents', models.incidentModel.getIncidents)
-// app.get('/orders/:id', models.incidentModel.getOrderById)
-// app.post('/orders', models.incidentModel.createOrder)
-// app.put('/orders/:id', models.incidentModel.updateOrder)
-// app.delete('/orders/:id', models.incidentModel.deleteOrder
+app.get('/incidents/:id', models.incidentModel.getIncidentById)
+app.post('/incidents', models.incidentModel.createIncident)
+app.put('/incidents/:id', models.incidentModel.updateIncident)
+app.delete('/incidents/:id', models.incidentModel.deleteIncident);
 
 //#endregion
 

@@ -7,67 +7,67 @@ const getIncidents = (request, response) => {
             throw error
         }
         response.status(200).json(results.rows)
-    })
+    });
 }
 
-const getOrderById = (request, response) => {
+const getIncidentById = (request, response) => {
     const id = parseInt(request.params.id)
 
-    pool.query('SELECT * FROM "Incidents" WHERE "OrderId" = $1', [id], (error, results) => {
+    pool.query('SELECT * FROM "Incident" WHERE "IncidentId" = $1', [id], (error, results) => {
         if (error) {
             throw error
         }
         response.status(200).json(results.rows)
-    })
+    });
 }
 
 
-const createOrder = (request, response) => {
-    const { pickaddressid, dropaddressid, pickdate, arrivaldate } = request.body
+const createIncident = (request, response) => {
+    const { Description, OrderId, PersonId } = request.body
 
-    pool.query('INSERT INTO "Incidents" ("PickAddressID", "DropAddressID", "PickDate", "ArrivalDate") VALUES ($1, $2, $3, $4) RETURNING "OrderID"',
-        [pickaddressid, dropaddressid, pickdate, arrivaldate], (error, result) => {
+    pool.query('INSERT INTO "Incident" ("Description", "OrderId", "PersonId") VALUES ($1, $2, $3) RETURNING *',
+        [Description, OrderId, PersonId], (error, result) => {
             if (error) {
                 throw error
             }
-            response.status(201).send(`Order added with ID: ${result.rows[0].OrderID}`)            
-        })
+            response.status(201).json(result.rows[0]);
+        });
 }
 
 
-const updateOrder = (request, response) => {
+const updateIncident = (request, response) => {
     const id = parseInt(request.params.id)
-    const { pickaddressid, dropaddressid, pickdate, arrivaldate } = request.body
+    const { Description, OrderId, PersonId } = request.body
 
     pool.query(
-        'UPDATE "Incidents" SET "PickAddressID" = $1, "DropAddressID" = $2, "PickDate" = $3, "ArrivalDate" = $4 WHERE "OrderID" = $5',
-        [pickaddressid, dropaddressid, pickdate, arrivaldate, id],
+        'UPDATE "Incident" SET "Description" = $1, "OrderId" = $2, "PersonId" = $3 WHERE "IncidentId" = $4',
+        [Description, OrderId, PersonId, id],
         (error, results) => {
             if (error) {
                 throw error
             }
-            response.status(200).send(`Order modified with ID: ${id}`)
+            response.status(200);
         }
-    )
+    );
 }
 
 
-const deleteOrder = (request, response) => {
+const deleteIncident = (request, response) => {
     const id = parseInt(request.params.id)
 
-    pool.query('DELETE FROM "Incidents" WHERE "OrderID" = $1', [id], (error, results) => {
+    pool.query('DELETE FROM "Incident" WHERE "IncidentId" = $1', [id], (error, results) => {
         if (error) {
             throw error
         }
-        response.status(200).send(`Order deleted with ID: ${results.rows[0].OrderId}`)
-    })
+        response.status(200);
+    });
 }
 
 
 module.exports = {
     getIncidents,
-    getOrderById,
-    createOrder,
-    updateOrder,
-    deleteOrder,
+    getIncidentById,
+    createIncident,
+    updateIncident,
+    deleteIncident
 }
