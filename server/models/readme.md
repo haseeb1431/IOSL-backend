@@ -58,7 +58,9 @@ POST http://localhost:8000/packages
 	"dropaddressid":2,
 	"pickdate": "2018-05-05",
 	"arrivaldate": null,
-	"personid":1
+	"personid":1,
+	"receieverid":null,
+	"status":null
 }
 
 PUT http://localhost:8000/packages/1
@@ -67,7 +69,9 @@ PUT http://localhost:8000/packages/1
 	"dropaddressid":2,
 	"pickdate": "2018-05-07",
 	"arrivaldate": null,
-	"personid":1
+	"personid":1,
+	"receieverid":1,
+	"status":"In Transit"
 }
 
 GET http://localhost:8000/packages
