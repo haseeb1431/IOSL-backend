@@ -64,3 +64,19 @@ ALTER TABLE public."Orders"
 
 ALTER TABLE public."Orders"
     ADD COLUMN "PersonID" integer;    
+
+
+CREATE TABLE public."Incident"
+(
+    "IncidentId" serial NOT NULL,
+    "Description" character varying(5000),
+    "OrderId" integer,
+    "PersonId" integer,
+    PRIMARY KEY ("IncidentId")
+)
+WITH (
+    OIDS = FALSE
+);
+
+ALTER TABLE public."Incident"
+    OWNER to ioslpg;    

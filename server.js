@@ -63,6 +63,12 @@ app.post('/completepackage',ordersModel.createOrderwithAddress)
 //postmanPackages/postman
 //postmanHandOver
 
+app.get('/incidents', models.incidentModel.getIncidents)
+// app.get('/orders/:id', models.incidentModel.getOrderById)
+// app.post('/orders', models.incidentModel.createOrder)
+// app.put('/orders/:id', models.incidentModel.updateOrder)
+// app.delete('/orders/:id', models.incidentModel.deleteOrder
+
 //#endregion
 
 

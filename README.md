@@ -7,7 +7,7 @@ FOr the first time only pull the code and install the packages locally
 ```
 git clone git@github.com:haseeb1431/IOSL-backend.git
 npm install
-npm start
+npm run server # run the app or #npm start
 ```
 after that every time, just run `git pull` to get latest
 
