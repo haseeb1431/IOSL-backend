@@ -64,7 +64,9 @@ ALTER TABLE public."Orders"
 
 ALTER TABLE public."Orders"
     ADD COLUMN "PersonID" integer;    
-
+    
+ALTER TABLE public."Orders"
+    ADD COLUMN "ReceiverPersonID" integer; 
 
 CREATE TABLE public."Incident"
 (

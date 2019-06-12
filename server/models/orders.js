@@ -57,47 +57,38 @@ const getPackageTimeline = (request, response) => {
 
 const createOrder = (request, response) => {
   const {
-    pickaddressid, dropaddressid, pickdate, arrivaldate, personid,
+    pickaddressid, dropaddressid, pickdate, arrivaldate, personid, receieverid
   } = request.body;
 
-  pool.query('INSERT INTO "Orders" ("PickAddressID", "DropAddressID", "PickDate", "ArrivalDate", "PersonID") VALUES ($1, $2, $3, $4, $5) RETURNING "OrderID"',
-    [pickaddressid, dropaddressid, pickdate, arrivaldate, personid], (error, result) => {
+  pool.query('INSERT INTO "Orders" ("PickAddressID", "DropAddressID", "PickDate", "ArrivalDate", "PersonID","ReceiverPersonID") VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+    [pickaddressid, dropaddressid, pickdate, arrivaldate, personid, receieverid], (error, result) => {
       if (error) {
         throw error;
       }
-      response.status(201).send(`Order added with ID: ${result.rows[0].OrderID}`);
+      response.status(201).json(result.rows[0]);
     });
 };
 
 const createOrderwithAddress = (request, response) => {
-  /*
-  const {
-    pickaddress, dropaddress, pickdate, arrivaldate, personid,
-  } = request.body;
-  pickID = insertAddress(pickaddress)
-    .then(res => console.log(res.rows[0]));
 
-  // dropId = await insertAddress(dropaddress)
-  console.log(pickID);
-  console.log(dropId);
-  response.status(200).send('Done'); */
 };
 
 
 const updateOrder = (request, response) => {
   const id = parseInt(request.params.id, 10);
   const {
-    pickaddressid, dropaddressid, pickdate, arrivaldate, personid,
+    pickaddressid, dropaddressid, pickdate, arrivaldate, personid, receieverid
   } = request.body;
 
   pool.query(
-    'UPDATE "Orders" SET "PickAddressID" = $1, "DropAddressID" = $2, "PickDate" = $3, "ArrivalDate" = $4, "PersonID"=$5 WHERE "OrderID" = $6',
-    [pickaddressid, dropaddressid, pickdate, arrivaldate, personid, id],
+    'UPDATE "Orders" SET "PickAddressID" = $1, "DropAddressID" = $2, "PickDate" = $3, "ArrivalDate" = $4, "PersonID"=$5'+
+    ' ReceiverPersonID=$6 WHERE "OrderID" = $7',
+    [pickaddressid, dropaddressid, pickdate, arrivaldate, personid, receieverid, id],
     (error, results) => {
       if (error) {
         throw error;
       }
-      response.status(200).send(`Order modified with ID: ${id}`);
+      response.status(200);
     },
   );
 };
