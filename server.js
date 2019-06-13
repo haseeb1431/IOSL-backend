@@ -35,11 +35,11 @@ app.get('/persons/:id', person.getPersonById)
 app.post('/persons', person.createPerson)
 app.put('/persons/:id', person.updatePerson)
 app.delete('/persons/:id', person.deletePerson)
+app.get('/persons/exists/:email', person.getPersonByEmail)
 
-//TODO: can we do get
-//pkgHistory Table
-//emailID
-app.post('/persons/exists', person.getPersonById)
+
+
+
 
 app.get('/address', addressModel.getAddress)
 app.get('/address/:id', addressModel.getAddressById)
@@ -73,6 +73,10 @@ app.get('/incidents/:id', models.incidentModel.getIncidentById)
 app.post('/incidents', models.incidentModel.createIncident)
 app.put('/incidents/:id', models.incidentModel.updateIncident)
 app.delete('/incidents/:id', models.incidentModel.deleteIncident);
+
+//TODO:
+//pkgHistory Table
+
 
 //#endregion
 

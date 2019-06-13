@@ -21,6 +21,16 @@ const getPersonById = (request, response) => {
   });
 };
 
+const getPersonByEmail = (request, response) => {
+  
+  pool.query('SELECT * FROM "Person" WHERE "Email" = $1', [request.params.email], (error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).json(results.rows);
+  });
+};
+
 
 const createPerson = (request, response) => {
   const {
@@ -71,4 +81,5 @@ module.exports = {
   createPerson,
   updatePerson,
   deletePerson,
+  getPersonByEmail
 };
