@@ -1,6 +1,7 @@
 const { pool } = require('./db');
 
 
+//TODO Add receiverName, Email as well
 const getOrders = (request, response) => {
   pool.query('SELECT * FROM "Orders" ORDER BY "OrderID" ASC', (error, results) => {
     if (error) {
@@ -101,14 +102,20 @@ const deleteOrder = (request, response) => {
     if (error) {
       throw error;
     }
-    response.status(200).send(`Order deleted with ID: ${results.rows[0].OrderId}`);
+    response.status(200);
   });
 };
+
+//TODO: join address table
 
 const getOrdersByUser = (request, response) => {
   const userId = parseInt(request.params.userid, 10);
 
-  pool.query('SELECT * FROM "Orders" inner join "Person" on "Orders"."PersonID" = "Person"."ID" where "Person"."ID"= $1', [userId], (error, results) => {
+  pool.query('SELECT 	"Orders".*, "Person".*,	"addrop"."StreetAddress" as dropstreetAddress, 	"addrop"."City" as dropcity,'+
+	'"addrop"."Country" as dropcountry, "addrop"."PostCode" as droppostcode, 	"adpick"."StreetAddress" as pickstreetAddress,'+
+	'"adpick"."City" as pickcity,	"adpick"."Country" as pickcountry,	"adpick"."PostCode" as pickpostcode FROM "Orders" inner join "Address" addrop on "Orders"."DropAddressID"="addrop"."AddressID" '+
+  'inner join "Address" adpick on "Orders"."PickAddressID"="adpick"."AddressID" inner join "Person" on "Orders"."PersonID" = "Person"."ID"'+
+  'where "Person"."ID"= $1', [userId], (error, results) => {
     if (error) {
       throw error;
     }

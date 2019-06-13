@@ -36,6 +36,11 @@ app.post('/persons', person.createPerson)
 app.put('/persons/:id', person.updatePerson)
 app.delete('/persons/:id', person.deletePerson)
 
+//TODO: can we do get
+//pkgHistory Table
+//emailID
+app.post('/persons/exists', person.getPersonById)
+
 app.get('/address', addressModel.getAddress)
 app.get('/address/:id', addressModel.getAddressById)
 app.post('/address', addressModel.createAddress)
@@ -49,7 +54,7 @@ app.get('/packages/:id', ordersModel.getOrderById)
 app.post('/packages', ordersModel.createOrder) //update to make userid required
 app.put('/packages/:id', ordersModel.updateOrder)
 app.delete('/packages/:id', ordersModel.deleteOrder)
-app.get('/userpackages/:userid', ordersModel.getOrdersByUser)
+app.get('/packages/user/:userid', ordersModel.getOrdersByUser)
 
 //TODO - Fetch real data
 app.get('/userpackagetimeline/:pkgid', ordersModel.getPackageTimeline)
