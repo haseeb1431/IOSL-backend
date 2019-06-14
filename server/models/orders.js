@@ -1,9 +1,13 @@
 const { pool } = require('./db');
 
-
-//TODO Add receiverName, Email as well
+/**
+ * Get /Packages
+ * Select all packages for the database
+ * @param {obj} request request object from node framework
+ * @param {obj} response response object * 
+ */
 const getOrders = (request, response) => {
-  pool.query('SELECT * FROM "Orders" ORDER BY "OrderID" ASC', (error, results) => {
+  pool.query('SELECT * FROM "Orders" inner join "Person" on "Person"."ID"="Orders"."ReceiverPersonID" ORDER BY "OrderID" Desc', (error, results) => {
     if (error) {
       throw error;
     }
@@ -11,6 +15,13 @@ const getOrders = (request, response) => {
   });
 };
 
+
+/**
+ * Get /Packagesdetails
+ * Select all packages for the database
+ * @param {obj} request request object from node framework
+ * @param {obj} response response object * 
+ */
 const getOrdersDetails = (request, response) => {
   pool.query('SELECT * FROM "Orders" inner join "Address" on "Orders"."DropAddressID"="Address"."AddressID" ORDER BY "OrderID" ASC', (error, results) => {
     if (error) {
@@ -19,6 +30,13 @@ const getOrdersDetails = (request, response) => {
     response.status(200).json(results.rows);
   });
 };
+
+/**
+ * Get /package/:id
+ * Get package by ID
+ * @param {obj} request request object from node framework
+ * @param {obj} response response object * 
+ */
 const getOrderById = (request, response) => {
   const id = parseInt(request.params.id, 10);
 
@@ -33,6 +51,14 @@ const getOrderById = (request, response) => {
   });
 };
 
+/**
+ * Get /userpackagetimeline/:pkgid
+ * Get package timeline from the blockchain back-end
+ * @param {obj} request request object from node framework
+ * @param {obj} response response object * 
+ */
+
+ //TODO: hardcoded for dummy implementation
 const getPackageTimeline = (request, response) => {
   // const id = parseInt(request.params.pkgid);
 
@@ -56,6 +82,13 @@ const getPackageTimeline = (request, response) => {
   response.status(200).json(results);
 };
 
+
+/**
+ * Post /package
+ * Create new package
+ * @param {obj} request request object from node framework
+ * @param {obj} response response object * 
+ */
 const createOrder = (request, response) => {
   const {
     pickaddressid, dropaddressid, pickdate, arrivaldate, personid, receieverid, status
@@ -70,11 +103,12 @@ const createOrder = (request, response) => {
     });
 };
 
-const createOrderwithAddress = (request, response) => {
-
-};
-
-
+/**
+ * PUT /package/:id
+ * update the existing package
+ * @param {obj} request request object from node framework
+ * @param {obj} response response object * 
+ */
 const updateOrder = (request, response) => {
   const id = parseInt(request.params.id, 10);
   const {
@@ -94,7 +128,12 @@ const updateOrder = (request, response) => {
   );
 };
 
-
+/**
+ * Delete /package/:id
+ * update the existing package
+ * @param {obj} request request object from node framework
+ * @param {obj} response response object * 
+ */
 const deleteOrder = (request, response) => {
   const id = parseInt(request.params.id, 10);
 
@@ -102,12 +141,17 @@ const deleteOrder = (request, response) => {
     if (error) {
       throw error;
     }
-    response.status(200);
+    response.sendStatus(200);
   });
 };
 
-//TODO: join address table
 
+/**
+ * GET /packages/user/:userid
+ * GET all packages for a specific user
+ * @param {obj} request request object from node framework
+ * @param {obj} response response object * 
+ */
 const getOrdersByUser = (request, response) => {
   const userId = parseInt(request.params.userid, 10);
 
@@ -123,19 +167,6 @@ const getOrdersByUser = (request, response) => {
   });
 };
 
-function insertAddress(addressObj) {
-  pool.query('INSERT INTO "Address" ("StreetAddress", "City", "Country", "PostCode") VALUES ($1, $2, $3, $4) RETURNING "AddressID"',
-    [addressObj.street, addressObj.city, addressObj.country, addressObj.postcode],
-    (error, result) => {
-      if (error) {
-        throw error;
-      }
-      // console.log(result.rows[0].AddressID);
-      return result.rows[0].AddressID;
-    });
-}
-
-
 module.exports = {
   getOrders,
   getOrderById,
@@ -143,7 +174,6 @@ module.exports = {
   updateOrder,
   deleteOrder,
   getOrdersByUser,
-  createOrderwithAddress,
   getPackageTimeline,
   getOrdersDetails
 };

@@ -49,21 +49,18 @@ app.delete('/address/:id', addressModel.deleteAddress)
 
 app.get('/packages', ordersModel.getOrders)
 app.get('/packagesdetails', ordersModel.getOrdersDetails)
-
 app.get('/packages/:id', ordersModel.getOrderById)
 app.post('/packages', ordersModel.createOrder) //update to make userid required
 app.put('/packages/:id', ordersModel.updateOrder)
 app.delete('/packages/:id', ordersModel.deleteOrder)
 app.get('/packages/user/:userid', ordersModel.getOrdersByUser)
-
-//TODO - Fetch real data
-app.get('/userpackagetimeline/:pkgid', ordersModel.getPackageTimeline)
+app.get('/packages/timeline/:packageid', ordersModel.getPackageTimeline)
 
 
 
 //pkgid, Receiverid, senderid, recvrcompanyid, sendcompanyid, location, date time, status
-app.post('/packageHandover',ordersModel.createOrderwithAddress)
-app.post('/completepackage',ordersModel.createOrderwithAddress)
+//app.post('/packageHandover',ordersModel.createOrderwithAddress)
+//app.post('/completepackage',ordersModel.createOrderwithAddress)
 //companypackages/compnayid
 //postmanPackages/postman
 //postmanHandOver
