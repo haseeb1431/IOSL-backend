@@ -78,18 +78,18 @@ const createOrderwithAddress = (request, response) => {
 const updateOrder = (request, response) => {
   const id = parseInt(request.params.id, 10);
   const {
-    pickaddressid, dropaddressid, pickdate, arrivaldate, personid, receieverid, status
+    PickAddressID, DropAddressID, PickDate, ArrivalDate, PersonID, ReceiverPersonID, Status
   } = request.body;
 
   pool.query(
-    'UPDATE "Orders" SET "PickAddressID" = $1, "DropAddressID" = $2, "PickDate" = $3, "ArrivalDate" = $4, "PersonID"=$5'+
-    ' ReceiverPersonID=$6, "Status"=$7 WHERE "OrderID" = $8',
-    [pickaddressid, dropaddressid, pickdate, arrivaldate, personid, receieverid, status, id],
+    'UPDATE "Orders" SET "PickAddressID" = $1, "DropAddressID" = $2, "PickDate" = $3, "ArrivalDate" = $4, "PersonID"=$5,'+
+    ' "ReceiverPersonID"=$6, "Status"=$7 WHERE "OrderID" = $8',
+    [PickAddressID, DropAddressID, PickDate, ArrivalDate, PersonID, ReceiverPersonID, Status, id],
     (error, results) => {
       if (error) {
         throw error;
       }
-      response.status(200);
+      response.sendStatus(200);
     },
   );
 };
