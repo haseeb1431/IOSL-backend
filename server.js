@@ -36,12 +36,9 @@ app.post('/persons', person.createPerson)
 app.put('/persons/:id', person.updatePerson)
 app.delete('/persons/:id', person.deletePerson)
 app.get('/persons/exists/:email', person.getPersonByEmail)
+app.post('/login',person.userLogin);
 
-
-
-
-
-app.get('/address', addressModel.getAddress)
+app.get('/address', addressModel.getAddress);
 app.get('/address/:id', addressModel.getAddressById)
 app.post('/address', addressModel.createAddress)
 app.put('/address/:id', addressModel.updateAddress)

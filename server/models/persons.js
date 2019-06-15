@@ -1,6 +1,10 @@
 const { pool } = require('./db');
 
-
+/**
+ * Get all users from the system
+ * @param {object} request Request object
+ * @param {object} response response object
+ */
 const getPersons = (request, response) => {
   pool.query('SELECT * FROM "Person" ORDER BY "ID" ASC', (error, results) => {
     if (error) {
@@ -10,6 +14,11 @@ const getPersons = (request, response) => {
   });
 };
 
+/**
+ * Get users from the system using ID
+ * @param {object} request Request object
+ * @param {object} response response object
+ */
 const getPersonById = (request, response) => {
   const id = parseInt(request.params.id, 10);
 
@@ -21,6 +30,28 @@ const getPersonById = (request, response) => {
   });
 };
 
+/**
+ * Verify the user login information
+ * @param {object} request Request object
+ * @param {object} response response object
+ */
+const userLogin = (request, response) => {
+  const { email, password } = request.body;
+
+  pool.query('SELECT * FROM "Person" WHERE "Email" = $1 and "Password" = $2', 
+  [email, password], (error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).json(results.rows);
+  });
+};
+
+/**
+ * Get person infomration via Email
+ * @param {object} request Request object
+ * @param {object} response response object
+ */
 const getPersonByEmail = (request, response) => {
   
   pool.query('SELECT * FROM "Person" WHERE "Email" = $1', [request.params.email], (error, results) => {
@@ -32,6 +63,11 @@ const getPersonByEmail = (request, response) => {
 };
 
 
+/**
+ * Insert person into the database
+ * @param {object} request Request object
+ * @param {object} response response object
+ */
 const createPerson = (request, response) => {
   const {
     fullname, email, password, persontype,
@@ -45,7 +81,11 @@ const createPerson = (request, response) => {
     });
 };
 
-
+/**
+ * update person infomration in the database
+ * @param {object} request Request object
+ * @param {object} response response object
+ */
 const updatePerson = (request, response) => {
   const id = parseInt(request.params.id, 10);
   const { fullname, email, persontype } = request.body;
@@ -63,6 +103,11 @@ const updatePerson = (request, response) => {
 };
 
 
+/**
+ * Delete a person
+ * @param {object} request Request object
+ * @param {object} response response object
+ */
 const deletePerson = (request, response) => {
   const id = parseInt(request.params.id, 10);
 
@@ -81,5 +126,6 @@ module.exports = {
   createPerson,
   updatePerson,
   deletePerson,
-  getPersonByEmail
+  getPersonByEmail,
+  userLogin
 };
