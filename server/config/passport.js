@@ -15,7 +15,7 @@ module.exports = function (app, passport) {
         // consumerSecret: config.googleAuth.clientSecret
     },
         function (accessToken, refreshToken, profile, done) {
-            models.personsModel.upsertGoogleUser(accessToken, refreshToken, profile, function (err, user) {
+            models.personsModel.upsertGoogleUser(accessToken, refreshToken, profile, function (err, user) {                
                 return done(err, user);
             });
         }));

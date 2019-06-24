@@ -1,7 +1,11 @@
+
 const models = require('../models/index');
 const person = models.personsModel;
 const addressModel = models.addressModel;
 const ordersModel = models.ordersModel;
+
+const { generateToken, sendToken } = require('./token.utils');
+
 
 module.exports = function (app, passport) {
 
@@ -49,21 +53,22 @@ module.exports = function (app, passport) {
     //pkgHistory Table
 
 
-    app.get('/gauth', person.dummyTestMethod);
+    app.post('/auth/google',
+        passport.authenticate('google-token', { session: false }),
+        function (req, res, next) {
 
+            if (!req.user) {
+                return res.send(500, 'User Not Authenticated');
+            }
+            req.auth = {
+                id: req.user.ID,
+                type: req.user.PersonType,
+                name: req.user.FullName,
+                email: req.user.Email
+            };
 
-
-    app.get('/auth/google', passport.authenticate('google-token', { session: false }), function (req, res, next) {;
-        console.log('here');
-        if (!req.user) {
-            return res.send(500, 'User Not Authenticated');
-        }
-        req.auth = {
-            id: req.user.id
-        };
-
-        next();
-    }); //, generateToken, sendToken
+            next();
+        }, generateToken, sendToken); //
 
 
 }

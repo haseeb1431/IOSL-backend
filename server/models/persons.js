@@ -126,15 +126,15 @@ const deletePerson = (request, response) => {
  * @param {object} response response object
  */
 const getPersonByProviderId = (googleProviderId) => {
-  
 
-  pool.query('SELECT * FROM "Person" WHERE "googleProviderId" = $1', [googleProviderId], (error, results) => {
-    if (error) {
-      throw error;
-    }
-    if(response) response.status(200).json(results.rows);
-    else json(results.rows);
-  });
+  return pool.query('SELECT * FROM "Person" WHERE "googleProviderId" = $1', [googleProviderId])
+    .then(results => {
+      if (results.rowCount > 0) return results.rows;
+      else return [];
+    })
+    .catch(error => {
+      console.log(error.stack);
+    });
 };
 
 
@@ -145,76 +145,40 @@ const getPersonByProviderId = (googleProviderId) => {
  * @param {object} response response object
  */
 const createPersonProvider = (fullname, email, password, persontype, googleProviderId, googleAccessToken) => {
-  
+
   persontype = 1; //defaulting and then admin can change
-  
-  pool.query('INSERT INTO "Person" ("FullName", "Email", "Password", "PersonType") VALUES ($1, $2, $3, $4) RETURNING *',
-    [fullname, email, password, persontype, googleProviderId, googleAccessToken], (error, result) => {
-      if (error) {
-        throw error;
-      }
-      return json(result.rows[0]);
-    });
+
+  return pool.query('INSERT INTO "Person" ("FullName", "Email", "Password", "PersonType","googleProviderId","googleAccessToken") VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+    [fullname, email, password, persontype, googleProviderId, googleAccessToken])
+    .then(results => {
+      if (results.rowCount > 0) return result.rows[0];
+    })
+    .catch(error => console.log(error.stack));
 };
 
 const upsertGoogleUser = (accessToken, refreshToken, profile, cb) =>{
-
-  console.log('here');
-  var that = this;
   
-  return this.getPersonByProviderId(profile.id)
-      .then(function(users){
-
+  return getPersonByProviderId(profile.id)
+      .then(function(users){        
         if(users && users.length>0){ //existing user
-          return cb(error, user[0]);
+          return cb(null, users[0]);
         }
         else{ // no user was found, lets create a new one
 
-          return that.createPersonProvider(
-            profile.displayName,
-            profile.emails[0].value,
-            '',
-            null,
-            profile.id,
-            accessToken
+          return createPersonProvider(
+              profile.displayName,
+              profile.emails[0].value,
+              '',
+              null,
+              profile.id,
+              accessToken
           ).then(function(savedUser){
-            return cb(error, savedUser);
+            return cb(null, savedUser);
           });
         }
 
-      });
-
- /*return this.findOne({
-      'googleProvider.id': profile.id
-  }, function(err, user) {
-      // no user was found, lets create a new one
-      if (!user) {
-          var newUser = new that({
-              fullName: profile.displayName,
-              email: profile.emails[0].value,
-              googleProvider: {
-                  id: profile.id,
-                  token: accessToken
-              }
-          });
-
-          newUser.save(function(error, savedUser) {
-              if (error) {
-                  console.log(error);
-              }
-              return cb(error, savedUser);
-          });
-      } else {
-          return cb(err, user);
-      }
-  });*/
+      }); 
 };
-
-const dummyTestMethod = (request, response) => {
-  console.log('Here');
-
-  return this.upsertGoogleUser(null,null,null,null);
-}
 
 
 module.exports = {
@@ -225,7 +189,7 @@ module.exports = {
   deletePerson,
   getPersonByEmail,
   userLogin,
-  dummyTestMethod,
   upsertGoogleUser,
+  getPersonByProviderId,
   createPersonProvider
 };
