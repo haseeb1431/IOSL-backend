@@ -1,9 +1,10 @@
 const jwt = require('jsonwebtoken');
+const keys = require('./authKeys');
 
 const createToken = function(auth) {
     return jwt.sign({
             id: auth.id
-        }, 'diLLas-SecREt',
+        }, keys.sessionSecret,
         {
             expiresIn: 60 * 120
         });

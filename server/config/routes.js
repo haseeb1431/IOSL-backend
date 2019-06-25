@@ -25,7 +25,7 @@ module.exports = function (app, passport) {
     app.put('/address/:id', addressModel.updateAddress);
     app.delete('/address/:id', addressModel.deleteAddress);
 
-    app.get('/packages', ordersModel.getOrders);
+    app.get('/packages', passport.authenticate('google-token', { session: false }), ordersModel.getOrders);
     app.get('/packagesdetails', ordersModel.getOrdersDetails);
     app.get('/packages/:id', ordersModel.getOrderById);
     app.post('/packages', ordersModel.createOrder); //update to make userid required
@@ -68,7 +68,7 @@ module.exports = function (app, passport) {
             };
 
             next();
-        }, generateToken, sendToken); //
+        }, generateToken, sendToken);
 
 
 }

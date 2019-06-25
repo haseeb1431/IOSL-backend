@@ -1,7 +1,7 @@
 // security middleware.js
 
 const jwt = require('jsonwebtoken');
-const secret = 'mysecretsshhh';
+const keys = require('./authKeys');
 
 const withAuth = function(req, res, next) {
   const token =
@@ -13,8 +13,7 @@ const withAuth = function(req, res, next) {
     res.status(401).send('Unauthorized: No access token found');
   } else {
 
-    //TODO: Verify from google
-    jwt.verify(token, secret, function(err, decoded) {
+    jwt.verify(token, keys.sessionSecret, function(err, decoded) {
       if (err) {
         res.status(401).send('Unauthorized: Invalid token');
       } else {
