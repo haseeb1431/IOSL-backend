@@ -85,3 +85,12 @@ WITH (
 
 ALTER TABLE public."Incident"
     OWNER to ioslpg;    
+
+
+-- Login related columns
+ALTER TABLE public."Person"
+    ADD COLUMN "googleProviderId" character varying(50);  
+
+ALTER TABLE public."Person"
+    ADD COLUMN "googleAccessToken" character varying(500);  
+

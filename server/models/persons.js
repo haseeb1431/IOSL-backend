@@ -120,6 +120,67 @@ const deletePerson = (request, response) => {
 };
 
 
+/**
+ * Get users from the database using provideID
+ * @param {object} request Request object
+ * @param {object} response response object
+ */
+const getPersonByProviderId = (googleProviderId) => {
+
+  return pool.query('SELECT * FROM "Person" WHERE "googleProviderId" = $1', [googleProviderId])
+    .then(results => {
+      if (results.rowCount > 0) return results.rows;
+      else return [];
+    })
+    .catch(error => {
+      console.log(error.stack);
+    });
+};
+
+
+
+/**
+ * Insert person into the database
+ * @param {object} request Request object
+ * @param {object} response response object
+ */
+const createPersonProvider = (fullname, email, password, persontype, googleProviderId, googleAccessToken) => {
+
+  persontype = 1; //defaulting and then admin can change
+
+  return pool.query('INSERT INTO "Person" ("FullName", "Email", "Password", "PersonType","googleProviderId","googleAccessToken") VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+    [fullname, email, password, persontype, googleProviderId, googleAccessToken])
+    .then(results => {
+      if (results.rowCount > 0) return result.rows[0];
+    })
+    .catch(error => console.log(error.stack));
+};
+
+const upsertGoogleUser = (accessToken, refreshToken, profile, cb) =>{
+  
+  return getPersonByProviderId(profile.id)
+      .then(function(users){        
+        if(users && users.length>0){ //existing user
+          return cb(null, users[0]);
+        }
+        else{ // no user was found, lets create a new one
+
+          return createPersonProvider(
+              profile.displayName,
+              profile.emails[0].value,
+              '',
+              null,
+              profile.id,
+              accessToken
+          ).then(function(savedUser){
+            return cb(null, savedUser);
+          });
+        }
+
+      }); 
+};
+
+
 module.exports = {
   getPersons,
   getPersonById,
@@ -127,5 +188,8 @@ module.exports = {
   updatePerson,
   deletePerson,
   getPersonByEmail,
-  userLogin
+  userLogin,
+  upsertGoogleUser,
+  getPersonByProviderId,
+  createPersonProvider
 };
