@@ -5,7 +5,7 @@ const addressModel = models.addressModel;
 const ordersModel = models.ordersModel;
 
 const { generateToken, sendToken } = require('./token.utils');
-
+const withAuth = require('../lib/secureMiddleware')
 
 module.exports = function (app, passport) {
 
@@ -29,8 +29,14 @@ module.exports = function (app, passport) {
     app.put('/sensors/:id', models.sensorModel.updateSensor);
     app.delete('/sensors/:id', models.sensorModel.deleteSensor);
 
-    app.get('/packages', passport.authenticate('google-token', { session: false }), ordersModel.getOrders);
-    app.get('/packagesdetails', ordersModel.getOrdersDetails);
+    //Order Sensor routes mapped to their method definations
+    app.get('/OrderSensors', models.OrderSensorsModel.getOrderSensors);
+    app.get('/OrderSensorsDetails', withAuth, models.OrderSensorsModel.getOrderSensorDetails);
+    app.get('/OrderSensors/:id', withAuth, models.OrderSensorsModel.getOrderSensorsById);
+
+
+    app.get('/packages', withAuth, ordersModel.getOrders);
+    app.get('/packagesdetails', withAuth, ordersModel.getOrdersDetails);
     app.get('/packages/:id', ordersModel.getOrderById);
     app.post('/packages', ordersModel.createOrder); //update to make userid required
     app.put('/packages/:id', ordersModel.updateOrder);

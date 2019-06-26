@@ -81,3 +81,23 @@ DELETE http://localhost:8000/packages/1
 
 ## GET user packages
 GET http://localhost:8000/userpackages/1
+
+
+## Sensors API calls
+
+```
+POST http://localhost:8000/sensors
+ {
+        "name": "t-labs Heat Sensor",
+        "description": "T-labs new and innovative heat sensor",
+        "minValue": "-50",
+        "maxValue": "50",
+        "displayUnit": "Celsius"
+}
+
+GET http://localhost:8000/sensors
+
+GET http://localhost:8000/sensors/1
+
+DELETE http://localhost:8000/sensors/1
+```

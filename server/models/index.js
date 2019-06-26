@@ -2,10 +2,14 @@ const personsModel = require('./persons');
 const addressModel = require('./address');
 const ordersModel = require('./orders');
 const incidentModel = require('./incidents');
+const sensorModel = require('./Sensors');
+const OrderSensorsModel = require('./OrderSensors');
 
 module.exports = {
   personsModel,
   addressModel,
   ordersModel,
-  incidentModel  
+  incidentModel,
+  sensorModel,
+  OrderSensorsModel
 };

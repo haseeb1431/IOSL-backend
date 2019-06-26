@@ -2,11 +2,14 @@ const jwt = require('jsonwebtoken');
 const keys = require('./authKeys');
 
 const createToken = function(auth) {
-    return jwt.sign({
-            id: auth.id
+    return jwt.sign({ //Dont' increase the token size
+            id: auth.id,
+            type: auth.type,
+            name: auth.name,
+            email: auth.email
         }, keys.sessionSecret,
         {
-            expiresIn: 60 * 120
+            expiresIn: 60 * 60 * 24 //24 hour validation
         });
 };
 

@@ -94,3 +94,38 @@ ALTER TABLE public."Person"
 ALTER TABLE public."Person"
     ADD COLUMN "googleAccessToken" character varying(500);  
 
+CREATE TABLE public."Sensor"
+(
+    "Id" serial NOT NULL,
+    "Name" character varying(100) NOT NULL,
+    "Description" character varying(1000),
+    "MinValue" character varying(25),
+    "MaxValue" character varying(25),
+    "DisplayUnit" character varying(50),
+    PRIMARY KEY ("Id")
+)
+WITH (
+    OIDS = FALSE
+);
+
+ALTER TABLE public."Sensor"
+    OWNER to ioslpg;
+
+CREATE TABLE public."OrderSensors"
+(
+    "Id" serial,
+    "OrderId" integer NOT NULL,
+    "SensorId" integer NOT NULL,
+    "MinThreshold" integer,
+    "MaxThreshold" integer,
+    valuerecorded character varying(25),
+    PRIMARY KEY ("Id")
+)
+WITH (
+    OIDS = FALSE
+);
+
+ALTER TABLE public."OrderSensors"
+    OWNER to ioslpg;
+COMMENT ON TABLE public."OrderSensors"
+    IS 'Store the sensors for a specific Order';
