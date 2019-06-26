@@ -9,8 +9,6 @@ const { generateToken, sendToken } = require('./token.utils');
 
 module.exports = function (app, passport) {
 
-
-
     app.get('/persons', person.getPersons);
     app.get('/persons/:id', person.getPersonById);
     app.post('/persons', person.createPerson);
@@ -24,6 +22,12 @@ module.exports = function (app, passport) {
     app.post('/address', addressModel.createAddress);
     app.put('/address/:id', addressModel.updateAddress);
     app.delete('/address/:id', addressModel.deleteAddress);
+
+    app.get('/sensors', models.sensorModel.getSensor);
+    app.get('/sensors/:id', models.sensorModel.getSensorById);
+    app.post('/sensors', models.sensorModel.createSensor);
+    app.put('/sensors/:id', models.sensorModel.updateSensor);
+    app.delete('/sensors/:id', models.sensorModel.deleteSensor);
 
     app.get('/packages', passport.authenticate('google-token', { session: false }), ordersModel.getOrders);
     app.get('/packagesdetails', ordersModel.getOrdersDetails);
