@@ -5,7 +5,7 @@ const addressModel = models.addressModel;
 const ordersModel = models.ordersModel;
 
 const { generateToken, sendToken } = require('./token.utils');
-
+const withAuth = require('../lib/secureMiddleware')
 
 module.exports = function (app, passport) {
 
@@ -25,8 +25,8 @@ module.exports = function (app, passport) {
     app.put('/address/:id', addressModel.updateAddress);
     app.delete('/address/:id', addressModel.deleteAddress);
 
-    app.get('/packages', passport.authenticate('google-token', { session: false }), ordersModel.getOrders);
-    app.get('/packagesdetails', ordersModel.getOrdersDetails);
+    app.get('/packages', withAuth, ordersModel.getOrders);
+    app.get('/packagesdetails', withAuth, ordersModel.getOrdersDetails);
     app.get('/packages/:id', ordersModel.getOrderById);
     app.post('/packages', ordersModel.createOrder); //update to make userid required
     app.put('/packages/:id', ordersModel.updateOrder);
