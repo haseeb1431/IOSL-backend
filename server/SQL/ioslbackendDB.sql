@@ -148,3 +148,9 @@ ALTER TABLE public."Company"
 
 ALTER TABLE public."Orders"
     ADD COLUMN "CompanyId" integer;
+
+
+ALTER TABLE public."OrderSensors"
+    ADD COLUMN light integer,
+	ADD COLUMN heavy integer,
+	ADD COLUMN severe integer;    

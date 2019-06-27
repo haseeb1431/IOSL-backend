@@ -70,11 +70,11 @@ const getOrderSensorsById = (request, response) => {
  */
 const createOrderSensors = (request, response) => {
   const {
-    pickaddressid, dropaddressid, pickdate, arrivaldate, personid, receieverid, status
+    orderId, sensorId, minThreshold, maxThreshold, light, heavy, severe
   } = request.body;
 
-  pool.query('INSERT INTO "OrderSensors" ("PickAddressID", "DropAddressID", "PickDate", "ArrivalDate", "PersonID","ReceiverPersonID", "Status") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
-    [pickaddressid, dropaddressid, pickdate, arrivaldate, personid, receieverid, status], (error, result) => {
+  pool.query('INSERT INTO "OrderSensors" ("OrderId", "SensorId", "MinThreshold", "MaxThreshold", "light","heavy", "severe") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+    [orderId, sensorId, minThreshold, maxThreshold, light, heavy, severe], (error, result) => {
       if (error) {
         throw error;
       }
