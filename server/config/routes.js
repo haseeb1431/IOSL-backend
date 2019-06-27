@@ -39,7 +39,7 @@ module.exports = function (app, passport) {
     app.get('/OrderSensors', models.OrderSensorsModel.getOrderSensors);
     app.get('/OrderSensorsDetails', withAuth, models.OrderSensorsModel.getOrderSensorDetails);
     app.get('/OrderSensors/:id', withAuth, models.OrderSensorsModel.getOrderSensorsById);
-
+    app.post('/OrderSensors', withAuth, models.OrderSensorsModel.createOrderSensors);
 
     app.get('/packages', withAuth, ordersModel.getOrders);
     app.get('/packagesdetails', withAuth, ordersModel.getOrdersDetails);
