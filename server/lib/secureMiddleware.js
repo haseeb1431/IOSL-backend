@@ -23,6 +23,7 @@ const withAuth = function(req, res, next) {
         req.userEmail = decoded.email;
         req.userId=decoded.id;
         req.userType= decoded.type;
+        req.PersonRole = decoded.PersonRole;
 
         next();
       }

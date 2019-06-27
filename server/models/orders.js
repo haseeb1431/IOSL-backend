@@ -7,13 +7,17 @@ const { pool } = require('./db');
  * @param {obj} response response object * 
  */
 const getOrders = (request, response) => {
-  pool.query('SELECT * FROM "Orders" inner join "Person" on "Person"."ID"="Orders"."ReceiverPersonID" ORDER BY "OrderID" Desc', (error, results) => {
+  var query = 'SELECT * FROM "Orders" inner join "Person" on "Person"."ID"="Orders"."ReceiverPersonID"';
+  query = authenticate(request,response, query);
+
+  pool.query(query, (error, results) => {
     if (error) {
       throw error;
     }
     response.status(200).json(results.rows);
   });
 };
+
 
 
 /**
@@ -23,7 +27,12 @@ const getOrders = (request, response) => {
  * @param {obj} response response object * 
  */
 const getOrdersDetails = (request, response) => {
-  pool.query('SELECT * FROM "Orders" inner join "Address" on "Orders"."DropAddressID"="Address"."AddressID" ORDER BY "OrderID" ASC', (error, results) => {
+
+  var query = 'SELECT * FROM "Orders" inner join "Address" on "Orders"."DropAddressID"="Address"."AddressID"';
+  query = authenticate(request, response, query);
+  query +=  'ORDER BY "OrderID" ASC';
+
+  pool.query(query, (error, results) => {
     if (error) {
       throw error;
     }
@@ -38,12 +47,19 @@ const getOrdersDetails = (request, response) => {
  * @param {obj} response response object * 
  */
 const getOrderById = (request, response) => {
+  
   const id = parseInt(request.params.id, 10);
 
-  pool.query('SELECT 	"Orders".*,	"addrop"."StreetAddress" as dropstreetAddress, 	"addrop"."City" as dropcity,'+
+  var query ='SELECT 	"Orders".*,	"addrop"."StreetAddress" as dropstreetAddress, 	"addrop"."City" as dropcity,'+
 	'"addrop"."Country" as dropcountry, "addrop"."PostCode" as droppostcode, 	"adpick"."StreetAddress" as pickstreetAddress,'+
-	'"adpick"."City" as pickcity,	"adpick"."Country" as pickcountry,	"adpick"."PostCode" as pickpostcode FROM "Orders" inner join "Address" addrop on "Orders"."DropAddressID"="addrop"."AddressID" '+
-	'inner join "Address" adpick on "Orders"."PickAddressID"="adpick"."AddressID" WHERE "Orders"."OrderID" = $1', [id], (error, results) => {
+  '"adpick"."City" as pickcity,	"adpick"."Country" as pickcountry,	"adpick"."PostCode" as pickpostcode FROM "Orders" inner join "Address" addrop on "Orders"."DropAddressID"="addrop"."AddressID" '+ 
+  'inner join "Address" adpick on "Orders"."PickAddressID"="adpick"."AddressID" ';
+
+  authenticate(request,response, query);
+
+  query += 'and "Orders"."OrderID" = $1'
+
+  pool.query(query, [id], (error, results) => {
     if (error) {
       throw error;
     }
@@ -90,6 +106,7 @@ const getPackageTimeline = (request, response) => {
  * @param {obj} response response object * 
  */
 const createOrder = (request, response) => {
+  if(request.userType == 2 || request.userType == 1){
   const {
     pickaddressid, dropaddressid, pickdate, arrivaldate, personid, receieverid, status
   } = request.body;
@@ -101,6 +118,10 @@ const createOrder = (request, response) => {
       }
       response.status(201).json(result.rows[0]);
     });
+  }
+  else{
+    response.status(401).send("You cannnot perform this operation");    
+  }
 };
 
 /**
@@ -166,6 +187,23 @@ const getOrdersByUser = (request, response) => {
     response.status(200).json(results.rows);
   });
 };
+
+
+//private method to authenticate based on user type and company type
+const authenticate = (request, response, query) =>{
+  
+  if (request.userType == 2) {
+    query += ' Where "CompanyId"=' + request.PersonRole;
+
+  }
+  else if (request.userType == 1) {
+    query += ' Where "PersonID"=' + request.userId;
+  }
+  else {
+    response.status(401).send("You cannnot perform this operation");
+  }
+  return query;
+}
 
 module.exports = {
   getOrders,

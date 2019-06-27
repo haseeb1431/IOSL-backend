@@ -43,12 +43,12 @@ module.exports = function (app, passport) {
 
     app.get('/packages', withAuth, ordersModel.getOrders);
     app.get('/packagesdetails', withAuth, ordersModel.getOrdersDetails);
-    app.get('/packages/:id', ordersModel.getOrderById);
-    app.post('/packages', ordersModel.createOrder); //update to make userid required
-    app.put('/packages/:id', ordersModel.updateOrder);
-    app.delete('/packages/:id', ordersModel.deleteOrder);
-    app.get('/packages/user/:userid', ordersModel.getOrdersByUser);
-    app.get('/packages/timeline/:packageid', ordersModel.getPackageTimeline);
+    app.get('/packages/:id', withAuth, ordersModel.getOrderById);
+    app.post('/packages', withAuth, ordersModel.createOrder); //update to make userid required
+    app.put('/packages/:id',withAuth, ordersModel.updateOrder);
+    app.delete('/packages/:id',withAuth, ordersModel.deleteOrder);
+    app.get('/packages/user/:userid',withAuth, ordersModel.getOrdersByUser);
+    app.get('/packages/timeline/:packageid',withAuth, ordersModel.getPackageTimeline);
 
 
 
@@ -80,7 +80,8 @@ module.exports = function (app, passport) {
                 id: req.user.ID,
                 type: req.user.PersonType,
                 name: req.user.FullName,
-                email: req.user.Email
+                email: req.user.Email,
+                PersonRole: req.user.PersonRole
             };
 
             next();

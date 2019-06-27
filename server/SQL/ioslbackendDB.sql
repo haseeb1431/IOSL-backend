@@ -15,8 +15,8 @@ CREATE TABLE public."Person"
     "Email" character varying(100) NOT NULL,
     "Password" character varying(250) NOT NULL,
     "DateOfBirth" date,
-    "PersonType" integer DEFAULT 0,
-    "PersonRole" integer DEFAULT 0,
+    "PersonType" integer DEFAULT 0, --stores user type (2 company, 1 user, 3 postman)
+    "PersonRole" integer DEFAULT 0, --contains companyId (1 DHL ...)
     "PicturePath" character varying(250),
     PRIMARY KEY ("ID")
 )
@@ -144,3 +144,7 @@ WITH (
 
 ALTER TABLE public."Company"
     OWNER to ioslpg;    
+
+
+ALTER TABLE public."Orders"
+    ADD COLUMN "CompanyId" integer;

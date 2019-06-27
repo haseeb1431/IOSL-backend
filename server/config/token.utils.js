@@ -6,7 +6,8 @@ const createToken = function(auth) {
             id: auth.id,
             type: auth.type,
             name: auth.name,
-            email: auth.email
+            email: auth.email,
+            PersonRole:auth.PersonRole //contains company info
         }, keys.sessionSecret,
         {
             expiresIn: 60 * 60 * 24 //24 hour validation
