@@ -29,6 +29,12 @@ module.exports = function (app, passport) {
     app.put('/sensors/:id', models.sensorModel.updateSensor);
     app.delete('/sensors/:id', models.sensorModel.deleteSensor);
 
+    //rotues for the company model to do the crud operations
+    app.get('/company', models.companyModel.getCompany);
+    app.get('/company/:id', models.companyModel.getCompanyById);
+    app.post('/company', withAuth, models.companyModel.createCompany);
+    app.delete('/company/:id', models.companyModel.deleteCompany);
+
     //Order Sensor routes mapped to their method definations
     app.get('/OrderSensors', models.OrderSensorsModel.getOrderSensors);
     app.get('/OrderSensorsDetails', withAuth, models.OrderSensorsModel.getOrderSensorDetails);

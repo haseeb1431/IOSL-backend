@@ -129,3 +129,18 @@ ALTER TABLE public."OrderSensors"
     OWNER to ioslpg;
 COMMENT ON TABLE public."OrderSensors"
     IS 'Store the sensors for a specific Order';
+
+
+CREATE TABLE public."Company"
+(
+    "Id" serial NOT NULL,
+    "Name" character varying(50) NOT NULL,
+    "Description" character varying(500),
+    PRIMARY KEY ("Id")
+)
+WITH (
+    OIDS = FALSE
+);
+
+ALTER TABLE public."Company"
+    OWNER to ioslpg;    
