@@ -57,7 +57,15 @@ const getOrderSensorsByPackageId = (request, response) => {
         if (error) {
           throw error;
         }
-        response.status(200).json(results.rows);
+        if(results.rowCount>0){
+          var row = results.rows[0];
+          //TODO: Fetch from BC
+          row.bc_heavy=row.heavy;
+          row.bc_light = row.light;
+          row.bc_severe= row.severe;
+          response.status(200).json(row);
+        }
+        
       });
   }
   else {
