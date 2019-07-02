@@ -27,8 +27,8 @@ const authenticate = (request, response, query) => {
     query += ' Where "CompanyId"=' + request.PersonRole;
 
   }
-  else if (request.userType == 1) {
-    query += ' Where "PersonID"=' + request.userId;
+  else if (request.userType == 3) {
+    query += ' Where "PostmanId"=' + request.userId;
   }
   else {
     response.status(401).send("You cannnot perform this operation");
