@@ -12,6 +12,7 @@ module.exports = function (app, passport) {
     app.get('/persons', person.getPersons);
     app.get('/persons/:id', person.getPersonById);
     app.post('/persons', person.createPerson);
+    app.post('/persons/userType', withAuth, person.updateUserType);
     app.put('/persons/:id', person.updatePerson);
     app.delete('/persons/:id', person.deletePerson);
     app.get('/persons/exists/:email', person.getPersonByEmail);
@@ -45,12 +46,10 @@ module.exports = function (app, passport) {
     app.get('/packagesdetails', withAuth, ordersModel.getOrdersDetails);
     app.get('/packages/:id', withAuth, ordersModel.getOrderById);
     app.post('/packages', withAuth, ordersModel.createOrder); //update to make userid required
-    app.put('/packages/:id',withAuth, ordersModel.updateOrder);
-    app.delete('/packages/:id',withAuth, ordersModel.deleteOrder);
-    app.get('/packages/user/:userid',withAuth, ordersModel.getOrdersByUser);
-    app.get('/packages/timeline/:packageid',withAuth, ordersModel.getPackageTimeline);
-
-
+    app.put('/packages/:id', withAuth, ordersModel.updateOrder);
+    app.delete('/packages/:id', withAuth, ordersModel.deleteOrder);
+    app.get('/packages/user/:userid', withAuth, ordersModel.getOrdersByUser);
+    app.get('/packages/timeline/:packageid', withAuth, ordersModel.getPackageTimeline);
 
     //pkgid, Receiverid, senderid, recvrcompanyid, sendcompanyid, location, date time, status
     //app.post('/packageHandover',ordersModel.createOrderwithAddress)
@@ -85,6 +84,4 @@ module.exports = function (app, passport) {
 
             next();
         }, generateToken, sendToken);
-
-
 }

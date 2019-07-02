@@ -104,6 +104,31 @@ const updatePerson = (request, response) => {
 
 
 /**
+ * update a person to specific type
+ * @param {object} request Request object
+ * @param {object} response response object
+ */
+const updateUserType = (request, response) => {
+
+  if (request.userType == 2) {
+    const { userid, persontype } = request.body;
+
+    var query = 'update "Person" set "PersonType"=$1 where "Person"."ID"= $2';
+    pool.query(query, [userid, persontype], (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).send(results.rows);
+    });
+  }
+  else {
+    response.status(401).send("You cannnot perform this operation");
+  }
+};
+
+
+
+/**
  * Delete a person
  * @param {object} request Request object
  * @param {object} response response object
@@ -188,6 +213,7 @@ module.exports = {
   updatePerson,
   deletePerson,
   getPersonByEmail,
+  updateUserType,
   userLogin,
   upsertGoogleUser,
   getPersonByProviderId,
