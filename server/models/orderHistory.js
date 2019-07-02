@@ -20,6 +20,33 @@ const getOrdersHistory = (request, response) => {
 };
 
 
+
+/**
+ * Post /package History
+ * Create new package history or handover
+ * @param {obj} request request object from node framework
+ * @param {obj} response response object * 
+ */
+const createOrderHistory = (request, response) => {
+  if (request.userType == 2 || request.userType == 1) {
+    const {
+      orderId, postmanId, handoverDate, status
+    } = request.body;
+
+    pool.query('INSERT INTO "Orders" ("OrderId", "PostmanId", "HandoverDate", "Status") VALUES ($1, $2, $3, $4) RETURNING *',
+      [orderId, postmanId, handoverDate, status], (error, result) => {
+        if (error) {
+          throw error;
+        }
+        response.status(201).json(result.rows[0]);
+      });
+  }
+  else {
+    response.status(401).send("You cannnot perform this operation");
+  }
+};
+
+
 //private method to authenticate based on user type and company type
 const authenticate = (request, response, query) => {
 
@@ -38,4 +65,5 @@ const authenticate = (request, response, query) => {
 
 module.exports = {
   getOrdersHistory,
+  createOrderHistory
 };
