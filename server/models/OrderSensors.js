@@ -39,6 +39,34 @@ const getOrderSensorDetails = (request, response) => {
   }
 };
 
+//
+
+
+/**
+ * Get /getOrderSensorsByPackageId
+ * Get OrderSensors by ID
+ * @param {obj} request request object from node framework
+ * @param {obj} response response object * 
+ */
+const getOrderSensorsByPackageId = (request, response) => {
+  const id = parseInt(request.params.id, 10);
+
+  if (request.userId) {
+    pool.query('SELECT * FROM "OrderSensors" inner Join "Orders" on "Orders"."OrderID"="OrderSensors"."OrderId"' +
+      'inner join "Person" on "Person"."ID"="Orders"."PersonID" where "Person"."ID"=$1 and "Orders"."OrderID"=$2', [request.userId, id], (error, results) => {
+        if (error) {
+          throw error;
+        }
+        response.status(200).json(results.rows);
+      });
+  }
+  else {
+    response.status(401);
+  }
+};
+
+//[request.userId, id],
+
 /**
  * Get /OrderSensors/:id
  * Get OrderSensors by ID
@@ -105,5 +133,6 @@ module.exports = {
   getOrderSensorsById,
   getOrderSensorDetails,
   createOrderSensors,
-  deleteOrderSensors
+  deleteOrderSensors,
+  getOrderSensorsByPackageId
 };

@@ -40,11 +40,12 @@ module.exports = function (app, passport) {
     app.get('/OrderSensors', models.OrderSensorsModel.getOrderSensors);
     app.get('/OrderSensorsDetails', withAuth, models.OrderSensorsModel.getOrderSensorDetails);
     app.get('/OrderSensors/:id', withAuth, models.OrderSensorsModel.getOrderSensorsById);
+    app.get('/OrderSensors/package/:id', withAuth, models.OrderSensorsModel.getOrderSensorsByPackageId);
     app.post('/OrderSensors', withAuth, models.OrderSensorsModel.createOrderSensors);
 
     app.get('/packages', withAuth, ordersModel.getOrders);
     app.get('/packagesdetails', withAuth, ordersModel.getOrdersDetails);
-    app.get('/packages/:id', withAuth, ordersModel.getOrderById);
+    app.get('/packages/:orderId', withAuth, ordersModel.getOrderById);
     app.post('/packages', withAuth, ordersModel.createOrder); //update to make userid required
     app.put('/packages/:id', withAuth, ordersModel.updateOrder);
     app.delete('/packages/:id', withAuth, ordersModel.deleteOrder);

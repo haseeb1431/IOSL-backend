@@ -47,12 +47,12 @@ const getOrdersDetails = (request, response) => {
  */
 const getOrderById = (request, response) => {
 
-  const id = parseInt(request.params.id, 10);
+  const id = parseInt(request.params.orderId, 10);
 
-  var query = 'SELECT 	"Orders".*,	"addrop"."StreetAddress" as dropstreetAddress, 	"addrop"."City" as dropcity,' +
+  var query = 'SELECT	"OrderSensors".*,"Orders".*,	"addrop"."StreetAddress" as dropstreetAddress, 	"addrop"."City" as dropcity,' +
     '"addrop"."Country" as dropcountry, "addrop"."PostCode" as droppostcode, 	"adpick"."StreetAddress" as pickstreetAddress,' +
     '"adpick"."City" as pickcity,	"adpick"."Country" as pickcountry,	"adpick"."PostCode" as pickpostcode FROM "Orders" inner join "Address" addrop on "Orders"."DropAddressID"="addrop"."AddressID" ' +
-    'inner join "Address" adpick on "Orders"."PickAddressID"="adpick"."AddressID" ';
+    'inner join "Address" adpick on "Orders"."PickAddressID"="adpick"."AddressID" left join "OrderSensors" on "OrderSensors"."OrderId" = "Orders"."OrderID"';
   authenticate(request, response, query);
   query += 'and "Orders"."OrderID" = $1'
 
@@ -186,7 +186,7 @@ const getOrdersByUser = (request, response) => {
     '"addrop"."Country" as dropcountry, "addrop"."PostCode" as droppostcode, 	"adpick"."StreetAddress" as pickstreetAddress,' +
     '"adpick"."City" as pickcity,	"adpick"."Country" as pickcountry,	"adpick"."PostCode" as pickpostcode FROM "Orders" inner join "Address" addrop on "Orders"."DropAddressID"="addrop"."AddressID" ' +
     'inner join "Address" adpick on "Orders"."PickAddressID"="adpick"."AddressID" inner join "Person" on "Orders"."ReceiverPersonID" = "Person"."ID"' +
-    'where "Orders"."PersonID"= $1', [userId], (error, results) => {
+    'where "Orders"."PersonID"= $1 ORDER BY "Orders"."OrderID" desc', [userId], (error, results) => {
       if (error) {
         throw error;
       }
