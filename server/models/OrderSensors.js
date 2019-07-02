@@ -53,7 +53,7 @@ const getOrderSensorsByPackageId = (request, response) => {
 
   if (request.userId) {
     pool.query('SELECT * FROM "OrderSensors" inner Join "Orders" on "Orders"."OrderID"="OrderSensors"."OrderId"' +
-      'inner join "Person" on "Person"."ID"="Orders"."PersonID" where "Person"."ID"=$1 and "Orders"."OrderID"=$2', [request.userId, id], (error, results) => {
+      ' where "Orders"."OrderID"=$1', [id], (error, results) => {
         if (error) {
           throw error;
         }
