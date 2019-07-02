@@ -49,11 +49,11 @@ const getOrderById = (request, response) => {
 
   const id = parseInt(request.params.orderId, 10);
 
-  var query = 'SELECT	"OrderSensors".*,"Orders".*,	"addrop"."StreetAddress" as dropstreetAddress, 	"addrop"."City" as dropcity,' +
+  var query = 'SELECT	"Orders".*,	"addrop"."StreetAddress" as dropstreetAddress, 	"addrop"."City" as dropcity,' +
     '"addrop"."Country" as dropcountry, "addrop"."PostCode" as droppostcode, 	"adpick"."StreetAddress" as pickstreetAddress,' +
     '"adpick"."City" as pickcity,	"adpick"."Country" as pickcountry,	"adpick"."PostCode" as pickpostcode FROM "Orders" inner join "Address" addrop on "Orders"."DropAddressID"="addrop"."AddressID" ' +
-    'inner join "Address" adpick on "Orders"."PickAddressID"="adpick"."AddressID" left join "OrderSensors" on "OrderSensors"."OrderId" = "Orders"."OrderID"';
-  authenticate(request, response, query);
+    'inner join "Address" adpick on "Orders"."PickAddressID"="adpick"."AddressID"';
+  authenticate(request, response, query); //TODO: return type
   query += 'and "Orders"."OrderID" = $1'
 
   pool.query(query, [id], (error, results) => {
