@@ -154,3 +154,19 @@ ALTER TABLE public."OrderSensors"
     ADD COLUMN light integer,
 	ADD COLUMN heavy integer,
 	ADD COLUMN severe integer;    
+
+
+CREATE TABLE public."OrderHistory"
+(
+    "Id" serial,
+    "OrderId" integer,
+    "PostmanId" integer,
+    "HandoverDate" date,
+    "Status" character varying(10)
+)
+WITH (
+    OIDS = FALSE
+);
+
+ALTER TABLE public."OrderHistory"
+    OWNER to ioslpg;    

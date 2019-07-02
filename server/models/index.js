@@ -5,6 +5,7 @@ const incidentModel = require('./incidents');
 const sensorModel = require('./Sensors');
 const OrderSensorsModel = require('./OrderSensors');
 const companyModel = require('./company');
+const orderHistoryModel = require('./orderHistory');
 
 module.exports = {
   personsModel,
@@ -13,5 +14,6 @@ module.exports = {
   incidentModel,
   sensorModel,
   OrderSensorsModel,
-  companyModel
+  companyModel,
+  orderHistoryModel
 };

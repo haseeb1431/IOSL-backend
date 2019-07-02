@@ -120,7 +120,7 @@ const deletePerson = (request, response) => {
 };
 
 
-/**
+/**c
  * Get users from the database using provideID
  * @param {object} request Request object
  * @param {object} response response object

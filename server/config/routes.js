@@ -65,8 +65,7 @@ module.exports = function (app, passport) {
     app.put('/incidents/:id', models.incidentModel.updateIncident);
     app.delete('/incidents/:id', models.incidentModel.deleteIncident);
 
-    //TODO:
-    //pkgHistory Table
+    app.get('/orderHistory', withAuth, models.orderHistoryModel.getOrdersHistory);
 
 
     app.post('/auth/google',
