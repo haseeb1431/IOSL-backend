@@ -105,11 +105,11 @@ const getPackageTimeline = (request, response) => {
 const createOrder = (request, response) => {
   if (request.userType == 2 || request.userType == 1) {
     const {
-      pickaddressid, dropaddressid, pickdate, arrivaldate, personid, receieverid, status
+      pickaddressid, dropaddressid, pickdate, arrivaldate, personid, receieverid, status,companyId
     } = request.body;
 
-    pool.query('INSERT INTO "Orders" ("PickAddressID", "DropAddressID", "PickDate", "ArrivalDate", "PersonID","ReceiverPersonID", "Status") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
-      [pickaddressid, dropaddressid, pickdate, arrivaldate, personid, receieverid, status], (error, result) => {
+    pool.query('INSERT INTO "Orders" ("PickAddressID", "DropAddressID", "PickDate", "ArrivalDate", "PersonID","ReceiverPersonID", "Status","CompanyId") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
+      [pickaddressid, dropaddressid, pickdate, arrivaldate, personid, receieverid, status, companyId], (error, result) => {
         if (error) {
           throw error;
         }
