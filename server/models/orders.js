@@ -65,6 +65,33 @@ const getOrderById = (request, response) => {
 };
 
 /**
+ * Get /package/details/:id
+ * Get package by ID
+ * @param {obj} request request object from node framework
+ * @param {obj} response response object * 
+ */
+const getOrderDetailsById = (request, response) => {
+
+  const id = parseInt(request.params.id, 10);
+
+  var query = 'SELECT	"Orders".*, "Company".*,"OrderSensors".*, "addrop"."StreetAddress" as dropstreetAddress, 	"addrop"."City" as dropcity,' +
+    '"addrop"."Country" as dropcountry, "addrop"."PostCode" as droppostcode, 	"adpick"."StreetAddress" as pickstreetAddress,' +
+    '"adpick"."City" as pickcity,	"adpick"."Country" as pickcountry,	"adpick"."PostCode" as pickpostcode FROM "Orders" inner join "Address" addrop on "Orders"."DropAddressID"="addrop"."AddressID" ' +
+    'inner join "Address" adpick on "Orders"."PickAddressID"="adpick"."AddressID" inner join "Company" on "Company"."Id"="Orders"."CompanyId"'+
+    'left join "OrderSensors" on "OrderSensors"."OrderId"= "Orders"."OrderID" ';
+  query = authenticate(request, response, query);
+  query += ' and "Orders"."OrderID" = $1'
+
+  pool.query(query, [id], (error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).json(results.rows);
+  });
+};
+
+
+/**
  * Get /userpackagetimeline/:pkgid
  * Get package timeline from the blockchain back-end
  * @param {obj} request request object from node framework
@@ -219,5 +246,6 @@ module.exports = {
   deleteOrder,
   getOrdersByUser,
   getPackageTimeline,
-  getOrdersDetails
+  getOrdersDetails,
+  getOrderDetailsById
 };

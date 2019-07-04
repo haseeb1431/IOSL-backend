@@ -169,12 +169,12 @@ const getPersonByProviderId = (googleProviderId) => {
  * @param {object} request Request object
  * @param {object} response response object
  */
-const createPersonProvider = (fullname, email, password, persontype, googleProviderId, googleAccessToken) => {
+const createPersonProvider = (fullname, email, password, persontype, googleProviderId, googleAccessToken, PicturePath) => {
 
   persontype = 1; //defaulting and then admin can change
 
-  return pool.query('INSERT INTO "Person" ("FullName", "Email", "Password", "PersonType","googleProviderId","googleAccessToken") VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-    [fullname, email, password, persontype, googleProviderId, googleAccessToken])
+  return pool.query('INSERT INTO "Person" ("FullName", "Email", "Password", "PersonType","googleProviderId","googleAccessToken", "PicturePath") VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+    [fullname, email, password, persontype, googleProviderId, googleAccessToken, PicturePath])
     .then(results => {
       if (results.rowCount > 0) return result.rows[0];
     })

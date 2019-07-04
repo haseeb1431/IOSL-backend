@@ -73,6 +73,9 @@ const getOrderSensorsByPackageId = (request, response) => {
           });
           response.status(200).json(results.rows);
         }
+        else {
+          response.sendStatus(404);
+        }
 
       });
   }

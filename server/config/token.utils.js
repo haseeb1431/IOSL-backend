@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const keys = require('./authKeys');
 
 const createToken = function(auth) {
-    return jwt.sign({ //Dont' increase the token size
+    return jwt.sign({ 
             id: auth.id,
             type: auth.type,
             name: auth.name,
@@ -15,11 +15,14 @@ const createToken = function(auth) {
 };
 
 module.exports = {
+
+    //generate the token while signed with the secrete and expiry
   generateToken: function(req, res, next) {
       req.token = createToken(req.auth);
       return next();
   },
 
+  //set the token in the response header for the client application to retrieve and store it
   sendToken: function(req, res) {
       res.setHeader('x-auth-token', req.token);
       return res.status(200).send(JSON.stringify(req.user));

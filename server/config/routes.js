@@ -46,18 +46,13 @@ module.exports = function (app, passport) {
     app.get('/packages', withAuth, ordersModel.getOrders);
     app.get('/packagesdetails', withAuth, ordersModel.getOrdersDetails);
     app.get('/packages/:orderId', withAuth, ordersModel.getOrderById);
+    app.get('/packages/details/:id', withAuth, ordersModel.getOrderDetailsById);
+
     app.post('/packages', withAuth, ordersModel.createOrder); //update to make userid required
     app.put('/packages/:id', withAuth, ordersModel.updateOrder);
     app.delete('/packages/:id', withAuth, ordersModel.deleteOrder);
     app.get('/packages/user/:userid', withAuth, ordersModel.getOrdersByUser);
     app.get('/packages/timeline/:packageid', withAuth, ordersModel.getPackageTimeline);
-
-    //pkgid, Receiverid, senderid, recvrcompanyid, sendcompanyid, location, date time, status
-    //app.post('/packageHandover',ordersModel.createOrderwithAddress)
-    //app.post('/completepackage',ordersModel.createOrderwithAddress)
-    //companypackages/compnayid
-    //postmanPackages/postman
-    //postmanHandOver
 
     app.get('/incidents', models.incidentModel.getIncidents);
     app.get('/incidents/:id', models.incidentModel.getIncidentById);
@@ -69,7 +64,7 @@ module.exports = function (app, passport) {
     app.get('/orderHistory/:id', withAuth, models.orderHistoryModel.getOrdersHistoryById);
     app.post('/orderHistory', withAuth, models.orderHistoryModel.createOrderHistory);
 
-
+    //Google signin social plugin
     app.post('/auth/google',
         passport.authenticate('google-token', { session: false }),
         function (req, res, next) {
