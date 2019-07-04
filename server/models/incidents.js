@@ -5,7 +5,7 @@ const getIncidents = (request, response) => {
     
     var query = 'SELECT * FROM "Incident" ';
     if (request.userType == 1) {
-        query += ' inner join "Person"  on "Person"."ID"="Incident"."PersonId" Where "PersonID"=' + request.userId;
+        query += ' inner join "Person"  on "Person"."ID"="Incident"."PersonId" Where "PersonId"=' + request.userId;
     }
     else{
         query += ' ORDER BY "IncidentId" DESC';
@@ -25,7 +25,7 @@ const getIncidentById = (request, response) => {
     var query = 'SELECT * FROM "Incident" ';
 
     if (request.userType == 1) {
-        query += ' inner join "Person"  on "Person"."ID"="Incident"."PersonId" Where "PersonID"=' + request.userId;
+        query += ' inner join "Person"  on "Person"."ID"="Incident"."PersonId" Where "PersonId"=' + request.userId;
         query += ' and "IncidentId" = $1 ORDER BY "IncidentId" DESC';
     }
     else{
