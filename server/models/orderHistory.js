@@ -29,16 +29,16 @@ const getOrdersHistory = (request, response) => {
 const getOrdersHistoryById = (request, response) => {
 
   const id = parseInt(request.params.id, 10);
-  
-  var query = 'SELECT * FROM "OrderHistory" inner join "Orders" on "OrderHistory"."OrderId"="Orders"."OrderID" Where "OrderID"=$1 ';
+
+  var query = 'SELECT "OrderHistory".* FROM "OrderHistory" inner join "Orders" on "OrderHistory"."OrderId"="Orders"."OrderID" Where "OrderID"=$1 ';
   //query = authenticate(request, response, query);
 
-  pool.query(query,[id], (error, results) => {
+  pool.query(query, [id], (error, results) => {
     if (error) {
       throw error;
     }
     response.status(200).json(results.rows);
-  });  
+  });
 };
 
 
