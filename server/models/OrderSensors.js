@@ -57,15 +57,23 @@ const getOrderSensorsByPackageId = (request, response) => {
         if (error) {
           throw error;
         }
-        if(results.rowCount>0){
-          var row = results.rows[0];
-          //TODO: Fetch from BC
-          row.bc_heavy=row.heavy;
-          row.bc_light = row.light;
-          row.bc_severe= row.severe;
-          response.status(200).json(row);
+        if (results.rowCount > 0) {
+          results.rows.map(row => {
+
+            //TODO: Fetch from BC
+            if (row.SensorId == 1) {
+              row.bc_MinThreshold = row.MinThreshold;
+              row.bc_MaxThreshold = row.MaxThreshold;
+            }
+            else {
+              row.bc_heavy = row.heavy;
+              row.bc_light = row.light;
+              row.bc_severe = row.severe;
+            }
+          });
+          response.status(200).json(results.rows);
         }
-        
+
       });
   }
   else {
