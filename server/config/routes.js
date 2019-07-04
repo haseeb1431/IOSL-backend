@@ -54,11 +54,11 @@ module.exports = function (app, passport) {
     app.get('/packages/user/:userid', withAuth, ordersModel.getOrdersByUser);
     app.get('/packages/timeline/:packageid', withAuth, ordersModel.getPackageTimeline);
 
-    app.get('/incidents', models.incidentModel.getIncidents);
-    app.get('/incidents/:id', models.incidentModel.getIncidentById);
-    app.post('/incidents', models.incidentModel.createIncident);
-    app.put('/incidents/:id', models.incidentModel.updateIncident);
-    app.delete('/incidents/:id', models.incidentModel.deleteIncident);
+    app.get('/incidents', withAuth, models.incidentModel.getIncidents);
+    app.get('/incidents/:id', withAuth, models.incidentModel.getIncidentById);
+    app.post('/incidents', withAuth, models.incidentModel.createIncident);
+    app.put('/incidents/:id', withAuth, models.incidentModel.updateIncident);
+    app.delete('/incidents/:id', withAuth, models.incidentModel.deleteIncident);
 
     app.get('/orderHistory', withAuth, models.orderHistoryModel.getOrdersHistory);
     app.get('/orderHistory/:id', withAuth, models.orderHistoryModel.getOrdersHistoryById);

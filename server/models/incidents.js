@@ -2,7 +2,16 @@ const pool = require('./db').pool
 
 
 const getIncidents = (request, response) => {
-    pool.query('SELECT * FROM "Incident" ORDER BY "IncidentId" DESC', (error, results) => {
+    
+    var query = 'SELECT * FROM "Incident" ';
+    if (request.userType == 1) {
+        query += ' inner join "Person"  on "Person"."ID"="Incident"."PersonId" Where "PersonID"=' + request.userId;
+    }
+    else{
+        query += ' ORDER BY "IncidentId" DESC';
+    }    
+
+    pool.query(query, (error, results) => {
         if (error) {
             throw error
         }
@@ -11,9 +20,19 @@ const getIncidents = (request, response) => {
 }
 
 const getIncidentById = (request, response) => {
-    const id = parseInt(request.params.id)
+    const id = parseInt(request.params.id);
 
-    pool.query('SELECT * FROM "Incident" WHERE "IncidentId" = $1', [id], (error, results) => {
+    var query = 'SELECT * FROM "Incident" ';
+
+    if (request.userType == 1) {
+        query += ' inner join "Person"  on "Person"."ID"="Incident"."PersonId" Where "PersonID"=' + request.userId;
+        query += ' and "IncidentId" = $1 ORDER BY "IncidentId" DESC';
+    }
+    else{
+        query += ' Where "IncidentId" = $1 ORDER BY "IncidentId" DESC';
+    }
+
+    pool.query(query, [id], (error, results) => {
         if (error) {
             throw error
         }
@@ -63,6 +82,22 @@ const deleteIncident = (request, response) => {
     });
 }
 
+
+//private method to authenticate based on user type and company type
+const authenticate = (request, response, query) => {
+
+    if (request.userType == 2) {
+      query += '';// Where "CompanyId"=' + request.PersonRole;
+  
+    }
+    else if (request.userType == 1) {
+      query += ' inner join "Person"  on "Person"."ID"="Incident"."PersonId" Where "PersonID"=' + request.userId;
+    }
+    else {
+      response.status(401).send("You cannnot perform this operation");
+    }
+    return query;
+  }
 
 module.exports = {
     getIncidents,
