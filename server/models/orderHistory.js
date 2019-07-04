@@ -20,6 +20,28 @@ const getOrdersHistory = (request, response) => {
 };
 
 
+/**
+ * Get /Order History
+ * Select all packages for the database
+ * @param {obj} request request object from node framework
+ * @param {obj} response response object * 
+ */
+const getOrdersHistoryById = (request, response) => {
+
+  const id = parseInt(request.params.id, 10);
+  
+  var query = 'SELECT * FROM "OrderHistory" inner join "Orders" on "OrderHistory"."OrderId"="Orders"."OrderID" Where "Id"=$1 ';
+  //query = authenticate(request, response, query);
+
+  pool.query(query,[id], (error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).json(results.rows);
+  });  
+};
+
+
 
 /**
  * Post /package History
@@ -65,5 +87,6 @@ const authenticate = (request, response, query) => {
 
 module.exports = {
   getOrdersHistory,
-  createOrderHistory
+  createOrderHistory,
+  getOrdersHistoryById
 };

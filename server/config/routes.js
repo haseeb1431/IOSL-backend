@@ -66,6 +66,8 @@ module.exports = function (app, passport) {
     app.delete('/incidents/:id', models.incidentModel.deleteIncident);
 
     app.get('/orderHistory', withAuth, models.orderHistoryModel.getOrdersHistory);
+    app.get('/orderHistory/:id', withAuth, models.orderHistoryModel.getOrdersHistoryById);
+    app.post('/orderHistory', withAuth, models.orderHistoryModel.createOrderHistory);
 
 
     app.post('/auth/google',
