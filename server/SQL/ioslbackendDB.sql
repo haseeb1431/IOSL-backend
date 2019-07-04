@@ -170,3 +170,9 @@ WITH (
 
 ALTER TABLE public."OrderHistory"
     OWNER to ioslpg;    
+
+ALTER TABLE public."OrderSensors"
+    ADD COLUMN bc_light integer,
+	ADD COLUMN bc_heavy integer,
+    ADD COLUMN bc_temprature integer,
+	ADD COLUMN bc_severe integer;      
