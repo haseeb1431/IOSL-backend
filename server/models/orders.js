@@ -7,7 +7,7 @@ const { pool } = require('./db');
  * @param {obj} response response object * 
  */
 const getOrders = (request, response) => {
-  var query = 'SELECT * FROM "Orders" inner join "Person" on "Person"."ID"="Orders"."ReceiverPersonID"';
+  var query = 'SELECT * FROM "Orders" inner join "Person" on "Person"."ID"="Orders"."PersonID"';
   query = authenticate(request, response, query);
 
   pool.query(query, (error, results) => {
