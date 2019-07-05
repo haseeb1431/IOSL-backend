@@ -32,7 +32,7 @@ const getOrdersHistoryById = (request, response) => {
 
   var query = 'SELECT "OrderHistory".*, "Company".*, "Person"."FullName" FROM "OrderHistory" inner join "Orders" on "OrderHistory"."OrderId"="Orders"."OrderID" '+
   'inner join "Company" on "Orders"."CompanyId"="Company"."Id" left join "Person" on "Person"."ID" = "OrderHistory"."PostmanId"'+
-    'Where "OrderID"=$1 ';
+    'Where "OrderID"=$1  order by "OrderHistory"."Id" asc';
   //query = authenticate(request, response, query);
 
   pool.query(query, [id], (error, results) => {
