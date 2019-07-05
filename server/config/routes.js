@@ -9,12 +9,12 @@ const withAuth = require('../lib/secureMiddleware')
 
 module.exports = function (app, passport) {
 
-    app.get('/persons', person.getPersons);
-    app.get('/persons/:id', person.getPersonById);
-    app.post('/persons', person.createPerson);
+    app.get('/persons', withAuth, person.getPersons);
+    app.get('/persons/:id', withAuth, person.getPersonById);
+    app.post('/persons', withAuth, person.createPerson);
     app.post('/persons/userType', withAuth, person.updateUserType);
-    app.put('/persons/:id', person.updatePerson);
-    app.delete('/persons/:id', person.deletePerson);
+    app.put('/persons/:id', withAuth, person.updatePerson);
+    app.delete('/persons/:id', withAuth, person.deletePerson);
     app.get('/persons/exists/:email', person.getPersonByEmail);
     app.post('/login', person.userLogin);
 
