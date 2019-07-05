@@ -13,6 +13,7 @@ module.exports = function (app, passport) {
     app.get('/persons/:id', withAuth, person.getPersonById);
     app.post('/persons', withAuth, person.createPerson);
     app.post('/persons/userType', withAuth, person.updateUserType);
+    app.put('/persons/userTypeByEmail', withAuth, person.updateUserTypeByEmail);    
     app.put('/persons/:id', withAuth, person.updatePerson);
     app.delete('/persons/:id', withAuth, person.deletePerson);
     app.get('/persons/exists/:email', person.getPersonByEmail);
