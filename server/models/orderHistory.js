@@ -57,8 +57,8 @@ const createOrderHistory = (request, response) => {
       orderId, postmanId, handoverDate, status
     } = request.body;
 
-    pool.query('INSERT INTO "OrderHistory" ("OrderId", "PostmanId", "HandoverDate", "Status") VALUES ($1, $2, $3, $4) RETURNING *',
-      [orderId, postmanId, handoverDate, status], (error, result) => {
+    pool.query('INSERT INTO "OrderHistory" ("OrderId", "PostmanId", "HandoverDate", "Status") VALUES ($1, $2, current_timestamp, $3) RETURNING *',
+      [orderId, postmanId, status], (error, result) => {
         if (error) {
           throw error;
         }
