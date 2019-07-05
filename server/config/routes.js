@@ -49,10 +49,11 @@ module.exports = function (app, passport) {
     app.get('/packages/details/:id', withAuth, ordersModel.getOrderDetailsById);
 
     app.post('/packages', withAuth, ordersModel.createOrder); //update to make userid required
-    app.put('/packages/:id', withAuth, ordersModel.updateOrder);
+    app.put('/packages/:id', withAuth, ordersModel.updateOrder); 
     app.delete('/packages/:id', withAuth, ordersModel.deleteOrder);
     app.get('/packages/user/:userid', withAuth, ordersModel.getOrdersByUser);
     app.get('/packages/timeline/:packageid', withAuth, ordersModel.getPackageTimeline);
+    app.put('/package/:id',withAuth, ordersModel.putOrder);
 
     app.get('/incidents', withAuth, models.incidentModel.getIncidents);
     app.get('/incidents/:id', withAuth, models.incidentModel.getIncidentById);

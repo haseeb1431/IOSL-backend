@@ -178,6 +178,63 @@ const updateOrder = (request, response) => {
   }
 };
 
+
+
+/**
+ * PUT /package/:id
+ * update the existing package
+ * @param {obj} request request object from node framework
+ * @param {obj} response response object * 
+ */
+const putOrder = (request, response) => {
+  if (request.userType == 2 || request.userType == 1) {
+    const id = parseInt(request.params.id, 10);
+    const {
+      PickAddressID, DropAddressID, PickDate, ArrivalDate, PersonID, ReceiverPersonID, Status
+    } = request.body;
+    
+    var params = [];
+    var query = 'UPDATE "Orders" SET ';
+
+    if(PickAddressID)
+    {
+      params.push(PickAddressID);
+      query+= ' "PickAddressID" = '+PickAddressID;
+    }
+
+    if(DropAddressID)
+    {
+      params.push(DropAddressID);
+      query+= ' "DropAddressID" = '+DropAddressID;
+    }
+
+    if(Status){
+      params.push(Status);
+      query += '"Status"= \''+ Status +'\' '
+    }
+
+    query +=  ' WHERE "OrderID" = '+id;
+
+    //',  $2, "PickDate" = $3, "ArrivalDate" = $4, "PersonID"=$5,' +     ' "ReceiverPersonID"=$6, ,
+    //[, , PickDate, ArrivalDate, PersonID, ReceiverPersonID, , id],
+    
+
+    pool.query(query, (error, results) => {
+        if (error) {
+          throw error;
+        }
+        response.sendStatus(200);
+      },
+    );
+  }
+  else {
+    response.status(401).send("You cannnot perform this operation");
+  }
+};
+
+
+
+
 /**
  * Delete /package/:id
  * update the existing package
@@ -247,5 +304,6 @@ module.exports = {
   getOrdersByUser,
   getPackageTimeline,
   getOrdersDetails,
-  getOrderDetailsById
+  getOrderDetailsById,
+  putOrder
 };
