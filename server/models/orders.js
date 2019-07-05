@@ -223,7 +223,7 @@ const putOrder = (request, response) => {
         if (error) {
           throw error;
         }
-        response.sendStatus(200);
+        response.status(200).json([]);
       },
     );
   }
