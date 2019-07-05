@@ -142,7 +142,8 @@ const updateUserTypeByEmail = (request, response) => {
       if (error) {
         throw error;
       }
-      response.status(200).json({"success":true});
+      if(results.rowCount>0) response.status(200).json({"success":true});
+      else response.status(200).json({"success":false});      
     });
   }
   else {
