@@ -30,7 +30,9 @@ const getOrdersHistoryById = (request, response) => {
 
   const id = parseInt(request.params.id, 10);
 
-  var query = 'SELECT "OrderHistory".* FROM "OrderHistory" inner join "Orders" on "OrderHistory"."OrderId"="Orders"."OrderID" Where "OrderID"=$1 ';
+  var query = 'SELECT "OrderHistory".*, "Company".*, "Person"."FullName" FROM "OrderHistory" inner join "Orders" on "OrderHistory"."OrderId"="Orders"."OrderID" '+
+  'inner join "Company" on "Orders"."CompanyId"="Company"."Id" left join "Person" on "Person"."ID" = "OrderHistory"."PostmanId"'+
+    'Where "OrderID"=$1 ';
   //query = authenticate(request, response, query);
 
   pool.query(query, [id], (error, results) => {
