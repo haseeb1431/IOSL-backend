@@ -20,6 +20,48 @@ const getOrdersHistory = (request, response) => {
 };
 
 
+
+
+/**
+ * Get /PackagesDetails
+ * Select all packages for the database
+ * @param {obj} request request object from node framework
+ * @param {obj} response response object * 
+ */
+const getOrdersHistoryDetailed = (request, response) => {
+  var query = 'SELECT	"Orders".*, "Person".*,	"addrop"."StreetAddress" as dropstreetAddress, 	"addrop"."City" as dropcity,' +
+  '"addrop"."Country" as dropcountry, "addrop"."PostCode" as droppostcode, 	"adpick"."StreetAddress" as pickstreetAddress,' +
+  '"adpick"."City" as pickcity,	"adpick"."Country" as pickcountry,	"adpick"."PostCode" as pickpostcode FROM "Orders" inner join "Address" addrop on "Orders"."DropAddressID"="addrop"."AddressID" ' +
+  'inner join "Address" adpick on "Orders"."PickAddressID"="adpick"."AddressID" inner join "Person" on "Orders"."PersonID" = "Person"."ID"'+
+  '  	inner join "OrderHistory" on  "OrderHistory"."OrderId"="Orders"."OrderID"'; 
+
+
+  if (request.userType == 2) {
+    query += ' Where "Orders"."CompanyId"=' + request.PersonRole;
+  }
+  else if (request.userType == 1) {
+    query += ' Where "Orders"."PersonID"=' + request.userId;
+  }
+  else if (request.userType == 3) {
+    query += ' Where "OrderHistory"."PostmanId"=' + request.userId;
+  }
+  else {
+    response.status(401).send("You cannnot perform this operation");
+  }
+  query = query + ' ORDER BY "Orders"."OrderID" desc';
+
+
+  pool.query(query, (error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).json(results.rows);
+  });
+};
+
+
+
+
 /**
  * Get /Order History
  * Select all packages for the database
@@ -90,5 +132,6 @@ const authenticate = (request, response, query) => {
 module.exports = {
   getOrdersHistory,
   createOrderHistory,
-  getOrdersHistoryById
+  getOrdersHistoryById,
+  getOrdersHistoryDetailed
 };

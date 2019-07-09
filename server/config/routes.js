@@ -65,9 +65,10 @@ module.exports = function (app, passport) {
     app.delete('/incidents/:id', withAuth, models.incidentModel.deleteIncident);
 
     app.get('/orderHistory', withAuth, models.orderHistoryModel.getOrdersHistory);
+    app.get('/orderHistoryDetails', withAuth, models.orderHistoryModel.getOrdersHistoryDetailed);
     app.get('/orderHistory/:id', withAuth, models.orderHistoryModel.getOrdersHistoryById);
     app.post('/orderHistory', withAuth, models.orderHistoryModel.createOrderHistory);
-
+    
     //Google signin social plugin
     app.post('/auth/google',
         passport.authenticate('google-token', { session: false }),
