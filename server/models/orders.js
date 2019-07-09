@@ -222,7 +222,7 @@ const updateOrder = (request, response) => {
  * @param {obj} response response object * 
  */
 const putOrder = (request, response) => {
-  if (request.userType == 2 || request.userType == 1) {
+  if (request.userType) {
     const id = parseInt(request.params.id, 10);
     const {
       PickAddressID, DropAddressID, PickDate, ArrivalDate, PersonID, ReceiverPersonID, Status

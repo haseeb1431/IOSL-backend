@@ -52,7 +52,7 @@ const getOrdersHistoryById = (request, response) => {
  * @param {obj} response response object * 
  */
 const createOrderHistory = (request, response) => {
-  if (request.userType == 2 || request.userType == 1) {
+  if (request.userType) {
     const {
       orderId, postmanId, handoverDate, status
     } = request.body;
