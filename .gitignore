@@ -7,7 +7,7 @@
 /coverage
 
 # secrets
-server/config/authKeys.js
+#server/config/authKeys.js
 
 # production
 /build

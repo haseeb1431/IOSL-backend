@@ -2,27 +2,24 @@
 
 
 ## Geting started
-*Development*
-FOr the first time only pull the code and install the packages locally
+
+For the first time only pull the code and install the packages locally
 ```
 git clone git@github.com:haseeb1431/IOSL-backend.git
 npm install
 npm run server # run the app or #npm start
 ```
-after that every time, just run `git pull` to get latest
+after that every time, just run `git pull` to get latest and `npm run server` to run the application
 
+
+
+### Git Commands
+Some usefule commands are as follows
 ```
 git pull
 git branch newbranchName #create a new branch for the task you want to work on 
 git push # once changes are complete, do the git push and then we will merge
-```
-*Build*
-```
-npm run build
-```
 
-### Git Commands
-```
 git clone URL #to copy the repo
 Git status #changed files in local repo
 git diff #changes to tracked files
@@ -51,7 +48,7 @@ git push
 ### Git Cheat sheet
 https://education.github.com/git-cheat-sheet-education.pdf
 
-### working on our own branch
+### Working on our own branch
 we need to do these 3 things after you already got the code on your local machine
 ```git pull
 git checkout anubhav #or your branch name
