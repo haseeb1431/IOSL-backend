@@ -26,8 +26,9 @@ const getOrderSensors = (request, response) => {
  */
 const getOrderSensorDetails = (request, response) => {
   if (request.userId) {
-    pool.query('SELECT * FROM "OrderSensors" inner Join "Orders" on "Orders"."OrderID"="OrderSensors"."Id"' +
-      +'inner join "Person" on "Person"."ID"="Orders"."PersonID" where "Person"."PersonID"=$1', [request.userId], (error, results) => {
+    var query = `SELECT * FROM "OrderSensors" inner Join "Orders" on "Orders"."OrderID"="OrderSensors"."Id" 
+    inner join "Person" on "Person"."ID"="Orders"."PersonID" where "Person"."ID"=${request.userId}`;
+    pool.query(query, (error, results) => {
         if (error) {
           throw error;
         }
@@ -95,9 +96,11 @@ const getOrderSensorsByPackageId = (request, response) => {
 const getOrderSensorsById = (request, response) => {
   const id = parseInt(request.params.id, 10);
 
+  var query = `SELECT * FROM "OrderSensors" inner Join "Orders" on "Orders"."OrderID"="OrderSensors"."Id" 
+  inner join "Person" on "Person"."ID"="Orders"."PersonID" where "Person"."ID"=${request.userId} and "Id"=${id}`;
+
   if (request.userId) {
-    pool.query('SELECT * FROM "OrderSensors" inner Join "Orders" on "Orders"."OrderID"="OrderSensors"."Id"' +
-      +'inner join "Person" on "Person"."ID"="Orders"."PersonID" where "Person"."PersonID"=$1 and "Id"=$2', [request.userId, id], (error, results) => {
+    pool.query(query, (error, results) => {
         if (error) {
           throw error;
         }
@@ -105,7 +108,7 @@ const getOrderSensorsById = (request, response) => {
       });
   }
   else {
-    response.status(401);
+    response.sendStatus(401);
   }
 };
 

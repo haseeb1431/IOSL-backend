@@ -8,6 +8,7 @@ For the first time only pull the code and install the packages locally
 git clone git@github.com:haseeb1431/IOSL-backend.git
 npm install
 npm run server # run the app or #npm start
+
 ```
 after that every time, just run `git pull` to get latest and `npm run server` to run the application
 
@@ -64,6 +65,12 @@ npm i bcryptjs body-parser concurrently express is-empty jsonwebtoken mongoose p
 npm i -D nodemon
 
 npm run server # run the app
+```
+
+## Running unit tests
+We are using mocha and chai for unit testing. Most of the tests are verifing the working of different rest endpoints while verifying the data from database. 
+```
+npm run test
 ```
 
 ## Author
