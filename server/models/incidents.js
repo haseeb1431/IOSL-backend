@@ -82,23 +82,6 @@ const deleteIncident = (request, response) => {
     });
 }
 
-
-//private method to authenticate based on user type and company type
-const authenticate = (request, response, query) => {
-
-    if (request.userType == 2) {
-      query += '';// Where "CompanyId"=' + request.PersonRole;
-  
-    }
-    else if (request.userType == 1) {
-      query += ' inner join "Person"  on "Person"."ID"="Incident"."PersonId" Where "PersonID"=' + request.userId;
-    }
-    else {
-      response.status(401).send("You cannnot perform this operation");
-    }
-    return query;
-  }
-
 module.exports = {
     getIncidents,
     getIncidentById,
