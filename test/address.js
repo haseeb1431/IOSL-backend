@@ -8,30 +8,30 @@ chai.use(chaiHttp);
 //During the test the env variable is set to test
 process.env.NODE_ENV = 'test';
 
-describe('/GET company', () => {
+describe('/GET address', () => {
 
   /*
-  * /GET company
-  * Test the /GET all company records
+  * /GET address
+  * Test the /GET all address records
   */
-  it('It should GET all the companies', (done) => {
+  it('It should GET all the addresses', (done) => {
     chai.request(server)
-      .get('/company')
+      .get('/address')
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('array');
-        res.body.length.should.be.eql(3);
+        res.body.length.should.be.above(3);
         done();
       });
   });
 
   /*
-  * /GET company/id
-  * Test the single company records from the database
+  * /GET address/id
+  * Test the single address records from the database
   */
-  it('It should GET single company', (done) => {
+  it('It should GET single address', (done) => {
     chai.request(server)
-      .get('/company/2')
+      .get('/address/2')
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('array');
@@ -41,14 +41,15 @@ describe('/GET company', () => {
   });
 
   /*
-  * /GET company/id
-  * Test the single company records that doesn't exist
+  * /GET address/id
+  * Test the single address records that doesn't exist
   */
-  it('It should not GET any company and return 404', (done) => {
+  it('It should not GET any address and return empty array', (done) => {
     chai.request(server)
-      .get('/company/-35')
+      .get('/address/-35')
       .end((err, res) => {
-        res.should.have.status(404);
+        res.body.should.be.a('array');
+        res.body.length.should.be.eql(0);
         done();
       });
   });
