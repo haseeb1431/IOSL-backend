@@ -5,7 +5,7 @@
 
 # testing
 /coverage
-
+.nyc_output
 # secrets
 #server/config/authKeys.js
 
